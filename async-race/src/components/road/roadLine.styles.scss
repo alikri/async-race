@@ -1,0 +1,22 @@
+.road-line {
+  height: 80px;
+  margin-inline: 10px;
+  border-bottom: dashed;
+  border-color: #FED766;
+  border-width: thin;
+  position: relative;
+
+  .car-container {
+    position: absolute;
+    top: 24px;
+    z-index: 2;
+  }
+
+  .finish-line {
+    width: 90%;
+    height: 100%;
+    border-right: dotted;
+    border-color: #FED766;
+    border-width: thin;
+  }
+}

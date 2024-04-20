@@ -47,4 +47,8 @@
   }
 }
 
+@mixin box-shadow($color: rgba(255, 255, 255, 0.15)) {
+    box-shadow: 0 2px 4px $color, 0 4px 10px $color;
+}
+
 
