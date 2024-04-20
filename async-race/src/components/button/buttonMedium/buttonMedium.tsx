@@ -1,9 +1,13 @@
 import './buttonMedium.styles.scss';
 
-const ButtonMedium = () => {
+type Props = {
+  title: string;
+};
+
+const ButtonMedium = ({ title }: Props) => {
   return (
     <button className="button-medium" type="button">
-      Create
+      {title}
     </button>
   );
 };
