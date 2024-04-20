@@ -22,8 +22,7 @@
     "build": "react-scripts build",
     "lint": "npx eslint 'src/**/*.{ts,tsx}'",
     "lint:fix": "npx eslint 'src/**/*.{ts,tsx}' --fix",
-    "format": "prettier --config .prettierrc.js \"**/*.{ts,tsx}\" --write",
-    "prettier": "prettier --config .prettierrc.js \"**/*.{ts,tsx}\" --check"
+    "format": "prettier --config .prettierrc.js \"**/*.{ts,tsx}\" --write"
   },
   "eslintConfig": {
     "extends": [
