@@ -1,7 +1,15 @@
 import './App.scss';
+import ControlPanel from './components/controlPanel/ControlPanel';
 
-function App() {
-  return <div className="main-container">Hello World</div>;
-}
+import Header from './components/header/header';
+
+const App = () => {
+  return (
+    <div className="main-container">
+      <Header />
+      <ControlPanel />
+    </div>
+  );
+};
 
 export default App;
