@@ -1,0 +1,7 @@
+@import '../../../styles/mixins';
+
+.button-medium {
+  @include button-style;
+  cursor: pointer;
+  outline: none;
+}

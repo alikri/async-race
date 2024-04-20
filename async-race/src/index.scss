@@ -16,3 +16,21 @@ a {
   text-decoration: none;
 }
 
+button {
+  background: none;    
+  color: inherit;      
+  border: none;       
+  padding: 0;      
+  margin: 0;  
+  font: inherit;        
+  cursor: pointer;   
+  outline: inherit;   
+  line-height: normal; 
+  overflow: visible;  
+  text-transform: none; 
+  display: inline-block; 
+  -webkit-appearance: none;
+  -moz-appearance: none;   
+  appearance: none;  
+}
+
