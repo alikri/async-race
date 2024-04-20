@@ -13,10 +13,20 @@
   }
 
   .finish-line {
+    position: relative;
     width: 90%;
     height: 100%;
     border-right: dotted;
     border-color: #FED766;
     border-width: thin;
+
+    .start-line {
+      position: absolute;
+      width: 90px;
+      height: 100%;
+      border-right: dotted;
+      border-color: #FED766;
+      border-width: thin;
+    }
   }
 }

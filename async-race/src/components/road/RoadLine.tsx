@@ -5,6 +5,7 @@ const RoadLine = () => {
   return (
     <div className="road-line">
       <div className="finish-line">
+        <div className="start-line" />
         <div className="car-container">
           <Car />
         </div>
