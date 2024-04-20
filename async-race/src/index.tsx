@@ -7,11 +7,13 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import reportWebVitals from './reportWebVitals';
 import Layout from './components/layout/layout';
 import Garage from './pages/garage/Garage';
+import Winners from './pages/winners/Winners';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Garage />} />
+      <Route index element={<Winners />} />
     </Route>,
   ),
 );

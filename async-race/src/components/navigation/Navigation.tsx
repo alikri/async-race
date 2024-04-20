@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 const Navigation = () => {
   return (
     <nav className="nav-wrapper">
-      <div>
-        <Link to="/">Garage</Link>
-      </div>
-      <div>
-        <Link to="winners">Winners</Link>
+      <div className="nav-container">
+        <div className="nav-link">
+          <Link to="/">Garage</Link>
+        </div>
+        <div className="nav-link">
+          <Link to="winners">Winners</Link>
+        </div>
       </div>
     </nav>
   );
