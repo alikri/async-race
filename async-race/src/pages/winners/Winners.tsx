@@ -1,5 +1,5 @@
-function Winners() {
+const Winners = () => {
   return <div>Hello World</div>;
-}
+};
 
 export default Winners;

@@ -1,11 +1,5 @@
-import Navigation from '../navigation/Navigation';
-
 const ControlPanel = () => {
-  return (
-    <div>
-      <Navigation />
-    </div>
-  );
+  return <div>Control Panel</div>;
 };
 
 export default ControlPanel;

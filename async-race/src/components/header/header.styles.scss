@@ -1,5 +1,8 @@
 .header {
-  h1 {
-    text-align: center;
+  display: flex;
+
+  .nav-container,
+  .title-container {
+    flex: 1 1 50%;
   }
 }
