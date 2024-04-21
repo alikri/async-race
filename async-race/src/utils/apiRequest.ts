@@ -6,7 +6,6 @@ interface RequestOptions {
   headers?: Record<string, string>;
 }
 
-// makeApiRequest remains universal and also returns headers
 async function makeApiRequest<T>({
   endpoint,
   method = 'GET',
