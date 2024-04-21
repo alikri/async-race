@@ -1,17 +1,20 @@
 import './controlPanel.styles.scss';
 
-import Input from '../input/input';
+import InputText from '../input/inputText/inputText';
 import ButtonMedium from '../button/buttonMedium/buttonMedium';
+import InputColor from '../input/inputColor/InputColor';
 
 const ControlPanel = () => {
   return (
     <>
       <div className="form-wrapper">
-        <Input />
+        <InputText />
+        <InputColor />
         <ButtonMedium title="Create" />
       </div>
       <div className="form-wrapper">
-        <Input />
+        <InputText />
+        <InputColor />
         <ButtonMedium title="Update" />
       </div>
     </>
