@@ -5,28 +5,51 @@
   border-color: #FED766;
   border-width: thin;
   position: relative;
+  display: flex;
+
+  .car-settings-wrapper {
+    width: 270px;
+    display: flex;
+    align-items: end;
+
+    .car-settings {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      margin-bottom: 4px;
+    }
+
+    .car-update {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      margin-bottom: 4px;
+    }
+
+  }
+
+  .car-name-container {
+    position: absolute;
+    left: 170px;
+    font-weight: bold;
+  }
 
   .car-container {
     position: absolute;
-    top: 24px;
+    top: 28px;
+    left: 80px;
     z-index: 2;
   }
 
-  .finish-line {
-    position: relative;
-    width: 90%;
-    height: 100%;
+  .race-road {
+    width: 100%;
     border-right: dotted;
+    border-left: dotted;
     border-color: #FED766;
     border-width: thin;
+  }
 
-    .start-line {
-      position: absolute;
-      width: 90px;
-      height: 100%;
-      border-right: dotted;
-      border-color: #FED766;
-      border-width: thin;
-    }
+  .finish {
+    width: 100px;
   }
 }
