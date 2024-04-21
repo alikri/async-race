@@ -1,7 +1,6 @@
 @import '../../styles/mixins';
 
 .road-wrapper {
-  margin-block: 50px;
   min-height: 800px;
   border-radius: 5px;
   @include box-shadow();

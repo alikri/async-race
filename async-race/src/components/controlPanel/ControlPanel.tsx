@@ -17,6 +17,10 @@ const ControlPanel = () => {
         <InputColor />
         <ButtonMedium title="Update" />
       </div>
+      <div className="race-control-wrapper">
+        <ButtonMedium title="Race" />
+        <ButtonMedium title="Reset" />
+      </div>
     </>
   );
 };
