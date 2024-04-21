@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
 import { CarData } from '../../components/car/Car';
-import fetchCars from '../../components/api/garageApi';
-// import makeApiRequest from '../../utils/apiRequest';
+import fetchCars from '../../components/api/getCars';
 
 const Garage = () => {
   const [cars, setCars] = useState<CarData[]>([]);
