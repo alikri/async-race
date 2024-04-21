@@ -5,7 +5,7 @@ import CarIcon from './CarIcon';
 export interface CarData {
   name: string;
   color: string;
-  id: number;
+  id?: number;
 }
 
 type Props = {
