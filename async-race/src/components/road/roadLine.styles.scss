@@ -8,7 +8,7 @@
   display: flex;
 
   .car-settings-wrapper {
-    width: 270px;
+    min-width: 160px;
     display: flex;
     align-items: end;
 
@@ -37,7 +37,7 @@
   .car-container {
     position: absolute;
     top: 28px;
-    left: 80px;
+    left: 75px;
     z-index: 2;
   }
 
@@ -50,6 +50,7 @@
   }
 
   .finish {
-    width: 100px;
+    min-width: 85px;
+    width: 85px;
   }
 }
