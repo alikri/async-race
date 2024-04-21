@@ -2,10 +2,6 @@
 
 .button-big {
   @include button-style;
-  padding: 0;
-  max-width: 45px;
-  margin-right: 2px;
-  font-size: .7rem;
-  height: 22px;
-  font-weight: bold;
+  cursor: pointer;
+  outline: none;
 }

@@ -1,7 +1,7 @@
 import './controlPanel.styles.scss';
 
 import InputText from '../input/inputText/inputText';
-import ButtonMedium from '../button/buttonMedium/buttonMedium';
+import ButtonBig from '../button/buttonBig/ButtonBig';
 import InputColor from '../input/inputColor/InputColor';
 
 const ControlPanel = () => {
@@ -10,12 +10,12 @@ const ControlPanel = () => {
       <div className="form-wrapper">
         <InputText />
         <InputColor />
-        <ButtonMedium title="Create" />
+        <ButtonBig title="Create" />
       </div>
       <div className="form-wrapper">
         <InputText />
         <InputColor />
-        <ButtonMedium title="Update" />
+        <ButtonBig title="Update" />
       </div>
       <div className="race-control-container">
         <div className="title-container">
@@ -26,8 +26,8 @@ const ControlPanel = () => {
         </div>
 
         <div className="race-control-wrapper">
-          <ButtonMedium title="Race" />
-          <ButtonMedium title="Reset" />
+          <ButtonBig title="Race" />
+          <ButtonBig title="Reset" />
         </div>
       </div>
     </>

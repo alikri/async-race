@@ -1,7 +1,7 @@
 import './roadLine.styles.scss';
 import Car, { CarData } from '../car/Car';
-import ButtonSmall from '../button/buttonSmall/buttonSmall';
-import ButtonBig from '../button/buttonBig/ButtonBig';
+import ButtonSmall from '../button/buttonSmall/ButtonSmall';
+import ButtonMedium from '../button/buttonMedium/ButtonMedium';
 
 type Props = {
   car: CarData;
@@ -12,8 +12,8 @@ const RoadLine = ({ car }: Props) => {
     <div className="road-line">
       <div className="car-settings-wrapper">
         <div className="car-update">
-          <ButtonBig title="Select" />
-          <ButtonBig title="Remove" />
+          <ButtonMedium title="Select" />
+          <ButtonMedium title="Remove" />
         </div>
         <div className="car-settings">
           <ButtonSmall title="A" />
