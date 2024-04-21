@@ -17,9 +17,18 @@ const ControlPanel = () => {
         <InputColor />
         <ButtonMedium title="Update" />
       </div>
-      <div className="race-control-wrapper">
-        <ButtonMedium title="Race" />
-        <ButtonMedium title="Reset" />
+      <div className="race-control-container">
+        <div className="title-container">
+          <h2>Garage</h2>
+          <div className="garage-count-wrapper">
+            <h3>50</h3>
+          </div>
+        </div>
+
+        <div className="race-control-wrapper">
+          <ButtonMedium title="Race" />
+          <ButtonMedium title="Reset" />
+        </div>
       </div>
     </>
   );

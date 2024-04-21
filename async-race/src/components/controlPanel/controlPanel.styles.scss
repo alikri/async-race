@@ -1,10 +1,36 @@
+@import '../../styles//variables';
 .form-wrapper {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.race-control-wrapper {
+.race-control-container {
+  max-width: 300px;
   margin-top: 50px;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+
+
+  .title-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    h2 {
+      font-size: 34px;
+    }
+
+    .garage-count-wrapper {
+
+      h3 {
+      font-size: 24px;
+      border: 4px solid $primary-color;
+      padding: 5px 10px;
+      border-radius: 50%;
+    }
+
+    }
+  }
 }
