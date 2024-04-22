@@ -14,6 +14,8 @@ interface CreateCar {
 
 export interface CarStateContextType {
   carState: CarState;
+  setCarState: Dispatch<SetStateAction<CarState>>;
+  addCar: (name: string, color: string) => Promise<void>;
 }
 
 export interface LoadStateContextType {
@@ -29,9 +31,10 @@ const initialCarState: CarStateContextType = {
     cars: [],
     totalCount: 0,
   },
+  setCarState: () => {},
+  addCar: async () => {},
 };
 
-// Initial state for load state context
 const initialLoadState: LoadStateContextType = {
   loading: false,
   error: null,
@@ -66,8 +69,7 @@ const CarProvider = ({ children }: CarProviderProps) => {
     }
   };
 
-  const addCar = async (carData: CreateCar) => {
-    const { name, color } = carData;
+  const addCar = async (name: string, color: string) => {
     try {
       const newCar = await createCar(name, color);
       setCarState(prev => ({

@@ -14,7 +14,7 @@ const ControlPanel = () => {
     updateColor: '',
   });
 
-  const context = useCarState();
+  const { addCar } = useCarState();
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData(prev => ({
@@ -25,6 +25,7 @@ const ControlPanel = () => {
 
   const handleCreateClick = () => {
     console.log('Create button clicked with data:', formData.createText, formData.createColor);
+    addCar(formData.createText, formData.createColor);
   };
 
   const handleUpdateClick = () => {
