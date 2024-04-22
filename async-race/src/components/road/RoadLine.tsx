@@ -1,7 +1,7 @@
 import './roadLine.styles.scss';
 import Car, { CarData } from '../car/Car';
-import ButtonMedium from '../button/buttonMedium/ButtonMedium';
-import ButtonSmall from '../button/buttonSmall/ButtonSmall';
+import ButtonMedium from '../common/button/buttonMedium/ButtonMedium';
+import ButtonSmall from '../common/button/buttonSmall/ButtonSmall';
 
 type Props = {
   car: CarData;

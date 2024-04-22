@@ -1,8 +1,8 @@
 import './controlPanel.styles.scss';
 
-import InputText from '../input/inputText/inputText';
-import ButtonBig from '../button/buttonBig/ButtonBig';
-import InputColor from '../input/inputColor/InputColor';
+import InputText from '../common/input/inputText/inputText';
+import ButtonBig from '../common/button/buttonBig/ButtonBig';
+import InputColor from '../common/input/inputColor/InputColor';
 
 const ControlPanel = () => {
   return (

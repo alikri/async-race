@@ -1,4 +1,4 @@
-import makeApiRequest from '../../utils/apiRequest';
+import makeApiRequest from '../utils/apiRequest';
 
 interface Car {
   name: string;
