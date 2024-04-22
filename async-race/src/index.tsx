@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import Layout from './components/layout/layout';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
-import { CarProvider } from './context/carContext';
+import { CarProvider } from './context/carContext/carContext';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
