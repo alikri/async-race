@@ -12,12 +12,11 @@ interface CreateCar {
   color: string;
 }
 
-interface CarStateContextType {
+export interface CarStateContextType {
   carState: CarState;
-  setCarState: Dispatch<SetStateAction<CarState>>;
 }
 
-interface LoadStateContextType {
+export interface LoadStateContextType {
   loading: boolean;
   error: string | null;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -25,17 +24,25 @@ interface LoadStateContextType {
   fetchAndUpdateCars: () => void;
 }
 
-const initialCarState = {
+const initialCarState: CarStateContextType = {
   carState: {
     cars: [],
     totalCount: 0,
   },
-  setCarState: () => {},
+};
+
+// Initial state for load state context
+const initialLoadState: LoadStateContextType = {
+  loading: false,
+  error: null,
+  setLoading: () => {},
+  setError: () => {},
+  fetchAndUpdateCars: () => Promise.resolve(),
 };
 
 // Create Contexts
 const CarStateContext = createContext<CarStateContextType>(initialCarState);
-const LoadStateContext = createContext<LoadStateContextType | undefined>(undefined);
+const LoadStateContext = createContext<LoadStateContextType>(initialLoadState);
 
 const CarProvider = ({ children }: CarProviderProps) => {
   const [carState, setCarState] = useState<CarState>({ cars: [], totalCount: 0 });

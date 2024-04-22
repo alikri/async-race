@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { CarStateContext, LoadStateContext } from './carContext';
+import { CarStateContext, CarStateContextType, LoadStateContext, LoadStateContextType } from './carContext';
 
-export const useCarState = () => {
+export const useCarState = (): CarStateContextType => {
   const context = useContext(CarStateContext);
   if (context === undefined) {
     throw new Error('useCarState must be used within a CarStateProvider');
@@ -9,7 +9,7 @@ export const useCarState = () => {
   return context;
 };
 
-export const useLoadState = () => {
+export const useLoadState = (): LoadStateContextType => {
   const context = useContext(LoadStateContext);
   if (context === undefined) {
     throw new Error('useLoadState must be used within a LoadStateProvider');

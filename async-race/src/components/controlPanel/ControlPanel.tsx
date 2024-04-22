@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import './controlPanel.styles.scss';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
+import { useCarState } from '../../context/contextHook';
 
 const ControlPanel = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const ControlPanel = () => {
     updateColor: '',
   });
 
+  const context = useCarState();
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData(prev => ({
