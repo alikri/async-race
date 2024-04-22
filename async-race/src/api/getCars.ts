@@ -3,7 +3,7 @@ import makeApiRequest from '../utils/apiRequest';
 
 export interface FetchCarsResponse {
   cars: CarData[];
-  totalCount?: number;
+  totalCount: number;
 }
 
 const getCars = async (page: number = 1, limit: number = 7): Promise<FetchCarsResponse> => {
@@ -25,7 +25,7 @@ const getCars = async (page: number = 1, limit: number = 7): Promise<FetchCarsRe
     const totalCount = headers.get('X-Total-Count');
     return {
       cars: data,
-      totalCount: totalCount ? parseInt(totalCount, 10) : undefined,
+      totalCount: totalCount ? parseInt(totalCount, 10) : 0,
     };
   } catch (error) {
     console.error('Failed to fetch cars:', error);

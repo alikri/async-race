@@ -1,9 +1,15 @@
 import { createContext, ReactNode, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
 import { CarState } from '../types';
 import getCars from '../api/getCars';
+import createCar from '../api/createCar';
 
 interface CarProviderProps {
   children: ReactNode;
+}
+
+interface CreateCar {
+  name: string;
+  color: string;
 }
 
 interface CarStateContextType {
@@ -19,8 +25,16 @@ interface LoadStateContextType {
   fetchAndUpdateCars: () => void;
 }
 
+const initialCarState = {
+  carState: {
+    cars: [],
+    totalCount: 0,
+  },
+  setCarState: () => {},
+};
+
 // Create Contexts
-const CarStateContext = createContext<CarStateContextType | undefined>(undefined);
+const CarStateContext = createContext<CarStateContextType>(initialCarState);
 const LoadStateContext = createContext<LoadStateContextType | undefined>(undefined);
 
 const CarProvider = ({ children }: CarProviderProps) => {
@@ -33,7 +47,7 @@ const CarProvider = ({ children }: CarProviderProps) => {
     setError(null);
 
     try {
-      const response = await getCars(1, 7);
+      const response = await getCars();
       setCarState({
         cars: response.cars,
         totalCount: response.totalCount,
@@ -45,6 +59,20 @@ const CarProvider = ({ children }: CarProviderProps) => {
     }
   };
 
+  const addCar = async (carData: CreateCar) => {
+    const { name, color } = carData;
+    try {
+      const newCar = await createCar(name, color);
+      setCarState(prev => ({
+        ...prev,
+        cars: [...prev.cars, newCar],
+        totalCount: prev.totalCount + 1,
+      }));
+    } catch (error) {
+      setError('Failed to add car');
+    }
+  };
+
   useEffect(() => {
     fetchAndUpdateCars();
   }, []);
@@ -53,8 +81,9 @@ const CarProvider = ({ children }: CarProviderProps) => {
     () => ({
       carState,
       setCarState,
+      addCar,
     }),
-    [carState, setCarState],
+    [carState],
   );
 
   const loadStateValue = useMemo(
@@ -65,7 +94,7 @@ const CarProvider = ({ children }: CarProviderProps) => {
       setError,
       fetchAndUpdateCars,
     }),
-    [loading, error, setLoading, setError],
+    [loading, error, setError],
   );
 
   return (

@@ -1,9 +1,16 @@
+import { ChangeEvent } from 'react';
 import './inputColor.styles.scss';
 
-const InputColor = () => {
+interface Props {
+  name: string;
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputColor = ({ name, value, onChange }: Props) => {
   return (
     <div className="color-input-wrapper">
-      <input className="color-input" type="color" />
+      <input className="color-input" type="color" name={name} value={value} onChange={onChange} />
     </div>
   );
 };
