@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { CarData } from './components/car/Car';
 
 export interface CarState {
@@ -14,4 +15,8 @@ export interface UpdateCarData {
 export interface CreateCarData {
   name: string;
   color: string;
+}
+
+export interface ProviderProps {
+  children: ReactNode;
 }

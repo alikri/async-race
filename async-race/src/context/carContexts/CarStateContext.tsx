@@ -1,12 +1,8 @@
-import { createContext, ReactNode, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
-import { CarState, CreateCarData, UpdateCarData } from '../../types';
+import { createContext, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
+import { CarState, CreateCarData, ProviderProps, UpdateCarData } from '../../types';
 import getCars from '../../api/getCars';
 import createCar from '../../api/createCar';
 import updateCar from '../../api/updateCar';
-
-interface CarProviderProps {
-  children: ReactNode;
-}
 
 export interface CarStateContextType {
   carState: CarState;
@@ -45,7 +41,7 @@ const initialLoadState: LoadStateContextType = {
 const CarStateContext = createContext<CarStateContextType>(initialCarState);
 const LoadStateContext = createContext<LoadStateContextType>(initialLoadState);
 
-const CarProvider = ({ children }: CarProviderProps) => {
+const CarProvider = ({ children }: ProviderProps) => {
   const [carState, setCarState] = useState<CarState>({ cars: [], totalCount: 0 });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

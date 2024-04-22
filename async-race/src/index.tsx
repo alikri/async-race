@@ -8,7 +8,8 @@ import reportWebVitals from './reportWebVitals';
 import Layout from './components/layout/layout';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
-import { CarProvider } from './context/carContext/carContext';
+import { CarProvider } from './context/carContexts/CarStateContext';
+import { SelectedCarProvider } from './context/carContexts/SelectedCarContext';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,7 +24,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <CarProvider>
-      <RouterProvider router={router} />
+      <SelectedCarProvider>
+        <RouterProvider router={router} />
+      </SelectedCarProvider>
     </CarProvider>
   </React.StrictMode>,
 );
