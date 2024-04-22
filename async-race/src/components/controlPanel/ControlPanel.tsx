@@ -8,9 +8,9 @@ import { useCarState } from '../../context/contextHook';
 
 const ControlPanel = () => {
   const [formData, setFormData] = useState({
-    createText: '',
-    createColor: '',
-    updateText: '',
+    carName: '',
+    color: '',
+    updateCarName: '',
     updateColor: '',
   });
 
@@ -24,12 +24,11 @@ const ControlPanel = () => {
   };
 
   const handleCreateClick = () => {
-    console.log('Create button clicked with data:', formData.createText, formData.createColor);
-    addCar(formData.createText, formData.createColor);
+    addCar(formData.carName, formData.color);
   };
 
   const handleUpdateClick = () => {
-    console.log('Update button clicked with data:', formData.updateText, formData.updateColor);
+    console.log('Update button clicked with data:', formData.updateCarName, formData.updateColor);
   };
 
   const handleRaceClick = () => console.log('Race button clicked');
@@ -38,12 +37,12 @@ const ControlPanel = () => {
   return (
     <>
       <div className="form-wrapper">
-        <InputText name="createText" value={formData.createText} onChange={handleInputChange} />
-        <InputColor name="createColor" value={formData.createColor} onChange={handleInputChange} />
+        <InputText name="createText" value={formData.carName} onChange={handleInputChange} />
+        <InputColor name="createColor" value={formData.color} onChange={handleInputChange} />
         <ButtonBig title="Create" onClick={handleCreateClick} />
       </div>
       <div className="form-wrapper">
-        <InputText name="updateText" value={formData.updateText} onChange={handleInputChange} />
+        <InputText name="updateText" value={formData.updateCarName} onChange={handleInputChange} />
         <InputColor name="updateColor" value={formData.updateColor} onChange={handleInputChange} />
         <ButtonBig title="Update" onClick={handleUpdateClick} />
       </div>
