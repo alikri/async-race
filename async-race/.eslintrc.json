@@ -34,6 +34,8 @@
     "react/no-unknown-property": [2, { "ignore": ["tsx", "global", "p-id"] }],
     "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
     "react/prop-types": 0,
+    "no-unused-vars": "off",
+    "no-shadow": "off",
     "react/react-in-jsx-scope": 0,
     "import/extensions": "off",
     "prettier/prettier": [
