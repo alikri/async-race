@@ -1,13 +1,8 @@
+import { CarData } from '../components/car/Car';
 import makeApiRequest from '../utils/apiRequest';
 
-interface Car {
-  name: string;
-  color: string;
-  id: number;
-}
-
 interface FetchCarsResponse {
-  cars: Car[];
+  cars: CarData[];
   totalCount?: number;
 }
 
@@ -22,7 +17,7 @@ const fetchCars = async (page?: number, limit?: number): Promise<FetchCarsRespon
   }
 
   try {
-    const { data, headers } = await makeApiRequest<Car[]>({
+    const { data, headers } = await makeApiRequest<CarData[]>({
       endpoint: '/garage',
       params,
     });

@@ -3,6 +3,7 @@ import { ActionType, CarAction } from './types';
 import createCar from '../../api/createCar';
 import updateCar from '../../api/updateCar';
 import { CarData } from '../../components/car/Car';
+import deleteCar from '../../api/deleteCar';
 
 export const createCarAction = (car: CarData) => async (dispatch: Dispatch<CarAction>) => {
   dispatch({ type: ActionType.CREATE_CAR_REQUEST });
@@ -27,6 +28,14 @@ export const updateCarAction = (car: CarData) => async (dispatch: Dispatch<CarAc
   }
 };
 
-export const deleteCar = (id: number) => async (dispatch: Dispatch<CarAction>) => {
+export const deleteCarAction = (id: number) => async (dispatch: Dispatch<CarAction>) => {
   dispatch({ type: ActionType.DELETE_CAR_REQUEST });
+
+  try {
+    await deleteCar(id);
+    dispatch({ type: ActionType.DELETE_CAR_SUCCESS, payload: id });
+  } catch (error) {
+    console.error('Failed to delete car:', error);
+    dispatch({ type: ActionType.DELETE_CAR_FAILURE, payload: error as Error });
+  }
 };
