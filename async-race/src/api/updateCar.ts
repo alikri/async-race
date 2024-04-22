@@ -1,7 +1,9 @@
 import makeApiRequest from '../utils/apiRequest';
 import { CarData } from '../components/car/Car';
+import { UpdateCarData } from '../types';
 
-const updateCar = async (id: number, name: string, color: string): Promise<CarData> => {
+const updateCar = async (updateCarData: UpdateCarData): Promise<CarData> => {
+  const { id, name, color } = updateCarData;
   const endpoint = `/garage/${id}`;
   const method = 'PUT';
   const headers = {

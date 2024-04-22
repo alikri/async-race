@@ -1,7 +1,8 @@
 import { createContext, ReactNode, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
-import { CarState } from '../types';
+import { CarState, UpdateCarData } from '../types';
 import getCars from '../api/getCars';
 import createCar from '../api/createCar';
+import updateCar from '../api/updateCar';
 
 interface CarProviderProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export interface CarStateContextType {
   carState: CarState;
   setCarState: Dispatch<SetStateAction<CarState>>;
   addCar: (name: string, color: string) => Promise<void>;
+  updateExistingCar: (updateCarData: UpdateCarData) => Promise<void>;
 }
 
 export interface LoadStateContextType {
@@ -33,6 +35,7 @@ const initialCarState: CarStateContextType = {
   },
   setCarState: () => {},
   addCar: async () => {},
+  updateExistingCar: async () => {},
 };
 
 const initialLoadState: LoadStateContextType = {
@@ -82,6 +85,19 @@ const CarProvider = ({ children }: CarProviderProps) => {
     }
   };
 
+  const updateExistingCar = async (newCarData: UpdateCarData) => {
+    const { id } = newCarData;
+    try {
+      const updatedCar = await updateCar(newCarData);
+      setCarState(prev => ({
+        ...prev,
+        cars: prev.cars.map(car => (car.id === id ? updatedCar : car)),
+      }));
+    } catch (error) {
+      setError('Failed to update car');
+    }
+  };
+
   useEffect(() => {
     fetchAndUpdateCars();
   }, []);
@@ -91,6 +107,7 @@ const CarProvider = ({ children }: CarProviderProps) => {
       carState,
       setCarState,
       addCar,
+      updateExistingCar,
     }),
     [carState],
   );
