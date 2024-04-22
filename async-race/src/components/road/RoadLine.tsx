@@ -1,19 +1,29 @@
 import './roadLine.styles.scss';
 import Car, { CarData } from '../car/Car';
-import ButtonMedium from '../common/button/buttonMedium/ButtonMedium';
 import ButtonSmall from '../common/button/buttonSmall/ButtonSmall';
+import { useSelectedCar } from '../../context/carContexts/contextHook';
 
 type Props = {
   car: CarData;
 };
 
 const RoadLine = ({ car }: Props) => {
+  const { setSelectedCar } = useSelectedCar();
+
+  const handleSelectCar = () => {
+    setSelectedCar(car);
+  };
+
   return (
     <div className="road-line">
       <div className="car-settings-wrapper">
         <div className="car-update">
-          <ButtonMedium title="Select" />
-          <ButtonMedium title="Remove" />
+          <button className="button-medium" type="button" onClick={handleSelectCar}>
+            Select
+          </button>
+          <button className="button-medium" type="button">
+            Remove
+          </button>
         </div>
         <div className="car-settings">
           <ButtonSmall title="A" />

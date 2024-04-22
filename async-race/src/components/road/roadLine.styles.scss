@@ -1,3 +1,5 @@
+@import '../../scss/mixins';
+
 .road-line {
   height: 80px;
   margin-inline: 10px;
@@ -24,6 +26,16 @@
       gap: 4px;
       flex-direction: column;
       margin-bottom: 4px;
+
+      .button-medium {
+          @include button-style;
+          padding: 0;
+          max-width: 45px;
+          margin-right: 2px;
+          font-size: .7rem;
+          height: 22px;
+          font-weight: bold;
+      }
     }
 
   }

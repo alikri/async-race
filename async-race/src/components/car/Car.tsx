@@ -13,11 +13,9 @@ type Props = {
 };
 
 const Car = ({ car }: Props) => {
-  const [color] = useState(car.color || 'black');
-
   return (
     <div className="car-wrapper">
-      <CarIcon color={color} />
+      <CarIcon color={car.color} />
     </div>
   );
 };

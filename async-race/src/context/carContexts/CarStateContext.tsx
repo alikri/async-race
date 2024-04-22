@@ -77,12 +77,11 @@ const CarProvider = ({ children }: ProviderProps) => {
   };
 
   const updateExistingCar = async (newCarData: UpdateCarData) => {
-    const { id } = newCarData;
     try {
       const updatedCar = await updateCar(newCarData);
       setCarState(prev => ({
         ...prev,
-        cars: prev.cars.map(car => (car.id === id ? updatedCar : car)),
+        cars: prev.cars.map(car => (car.id === updatedCar.id ? { ...car, ...updatedCar } : car)),
       }));
     } catch (error) {
       setError('Failed to update car');

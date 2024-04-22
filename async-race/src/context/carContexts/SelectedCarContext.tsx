@@ -1,15 +1,16 @@
-import React, { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { ProviderProps } from '../../types';
+import { CarData } from '../../components/car/Car';
 
 export interface SelectedCarContextType {
-  selectedCarId: number;
-  setSelectedCarId: Dispatch<SetStateAction<number>>;
+  selectedCar: CarData | null;
+  setSelectedCar: Dispatch<SetStateAction<CarData | null>>;
 }
 
 // Initial value for the context
 const initialSelectedCarIdValue: SelectedCarContextType = {
-  selectedCarId: 0,
-  setSelectedCarId: () => {},
+  selectedCar: null,
+  setSelectedCar: () => {},
 };
 
 // Context definition with initial value
@@ -17,17 +18,17 @@ const SelectedCarContext = createContext<SelectedCarContextType>(initialSelected
 
 // Provider component
 const SelectedCarProvider = ({ children }: ProviderProps) => {
-  const [selectedCarId, setSelectedCarId] = useState<number>(0);
+  const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
 
-  const selectedCarIdValue = useMemo(
+  const selectedCarValue = useMemo(
     () => ({
-      selectedCarId,
-      setSelectedCarId,
+      selectedCar,
+      setSelectedCar,
     }),
-    [selectedCarId, setSelectedCarId],
+    [selectedCar],
   );
 
-  return <SelectedCarContext.Provider value={selectedCarIdValue}>{children}</SelectedCarContext.Provider>;
+  return <SelectedCarContext.Provider value={selectedCarValue}>{children}</SelectedCarContext.Provider>;
 };
 
 export { SelectedCarProvider, SelectedCarContext };

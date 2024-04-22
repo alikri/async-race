@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 import './controlPanel.styles.scss';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
-import { useCarState } from '../../context/carContexts/contextHook';
+import { useCarState, useSelectedCar } from '../../context/carContexts/contextHook';
 
 const ControlPanel = () => {
+  const { addCar, updateExistingCar } = useCarState();
+  const { selectedCar } = useSelectedCar();
+
   const [formData, setFormData] = useState({
     carName: '',
     color: '',
@@ -14,7 +17,16 @@ const ControlPanel = () => {
     updateColor: '',
   });
 
-  const { addCar } = useCarState();
+  useEffect(() => {
+    if (selectedCar !== null) {
+      setFormData(prev => ({
+        ...prev,
+        updateCarName: selectedCar.name,
+        updateColor: selectedCar.color,
+      }));
+    }
+  }, [selectedCar]);
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData(prev => ({
@@ -33,7 +45,14 @@ const ControlPanel = () => {
   };
 
   const handleUpdateClick = () => {
-    console.log('Update button clicked with data:', formData.updateCarName, formData.updateColor);
+    if (selectedCar !== null) {
+      const updateCarData = {
+        id: selectedCar.id,
+        name: formData.updateCarName,
+        color: formData.updateColor,
+      };
+      updateExistingCar(updateCarData);
+    }
   };
 
   const handleRaceClick = () => console.log('Race button clicked');
@@ -42,12 +61,12 @@ const ControlPanel = () => {
   return (
     <>
       <div className="form-wrapper">
-        <InputText name="createText" value={formData.carName} onChange={handleInputChange} />
-        <InputColor name="createColor" value={formData.color} onChange={handleInputChange} />
+        <InputText name="carName" value={formData.carName} onChange={handleInputChange} />
+        <InputColor name="color" value={formData.color} onChange={handleInputChange} />
         <ButtonBig title="Create" onClick={handleCreateClick} />
       </div>
       <div className="form-wrapper">
-        <InputText name="updateText" value={formData.updateCarName} onChange={handleInputChange} />
+        <InputText name="updateCarName" value={formData.updateCarName} onChange={handleInputChange} />
         <InputColor name="updateColor" value={formData.updateColor} onChange={handleInputChange} />
         <ButtonBig title="Update" onClick={handleUpdateClick} />
       </div>
