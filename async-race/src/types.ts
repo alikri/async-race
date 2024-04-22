@@ -10,3 +10,8 @@ export interface UpdateCarData {
   name: string;
   color: string;
 }
+
+export interface CreateCarData {
+  name: string;
+  color: string;
+}

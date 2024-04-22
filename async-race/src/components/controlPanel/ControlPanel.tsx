@@ -24,7 +24,12 @@ const ControlPanel = () => {
   };
 
   const handleCreateClick = () => {
-    addCar(formData.carName, formData.color);
+    const createCarData = {
+      name: formData.carName,
+      color: formData.color,
+    };
+
+    addCar(createCarData);
   };
 
   const handleUpdateClick = () => {

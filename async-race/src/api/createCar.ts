@@ -1,12 +1,15 @@
 import makeApiRequest from '../utils/apiRequest';
 import { CarData } from '../components/car/Car';
+import { CreateCarData } from '../types';
 
-const createCar = async (name: string, color: string): Promise<CarData> => {
+const createCar = async (newCarData: CreateCarData): Promise<CarData> => {
   const endpoint = '/garage';
   const method = 'POST';
   const headers = {
     'Content-Type': 'application/json',
   };
+
+  const { name, color } = newCarData;
   const body = {
     name,
     color,

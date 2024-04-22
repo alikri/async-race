@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
-import { CarState, UpdateCarData } from '../types';
+import { CarState, CreateCarData, UpdateCarData } from '../types';
 import getCars from '../api/getCars';
 import createCar from '../api/createCar';
 import updateCar from '../api/updateCar';
@@ -8,15 +8,10 @@ interface CarProviderProps {
   children: ReactNode;
 }
 
-interface CreateCar {
-  name: string;
-  color: string;
-}
-
 export interface CarStateContextType {
   carState: CarState;
   setCarState: Dispatch<SetStateAction<CarState>>;
-  addCar: (name: string, color: string) => Promise<void>;
+  addCar: (newCarData: CreateCarData) => Promise<void>;
   updateExistingCar: (updateCarData: UpdateCarData) => Promise<void>;
 }
 
@@ -72,9 +67,9 @@ const CarProvider = ({ children }: CarProviderProps) => {
     }
   };
 
-  const addCar = async (name: string, color: string) => {
+  const addCar = async (newCarData: CreateCarData) => {
     try {
-      const newCar = await createCar(name, color);
+      const newCar = await createCar(newCarData);
       setCarState(prev => ({
         ...prev,
         cars: [...prev.cars, newCar],
