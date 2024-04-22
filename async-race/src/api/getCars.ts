@@ -6,7 +6,7 @@ export interface FetchCarsResponse {
   totalCount?: number;
 }
 
-const getCars = async (page?: number, limit?: number): Promise<FetchCarsResponse> => {
+const getCars = async (page: number = 1, limit: number = 7): Promise<FetchCarsResponse> => {
   const params = new URLSearchParams();
 
   if (page !== undefined) {

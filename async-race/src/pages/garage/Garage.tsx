@@ -1,35 +1,16 @@
-/* eslint-disable no-unused-vars */
 import './garage.styles.scss';
-import { useEffect, useState } from 'react';
 
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
-import { CarData } from '../../components/car/Car';
-import fetchCars from '../../api/getCars';
+import { useCarState, useLoadState } from '../../context/contextHook';
 
 const Garage = () => {
-  const [cars, setCars] = useState<CarData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { carState } = useCarState();
+  const { loading, error } = useLoadState();
+  const { cars } = carState;
 
-  const loadCars = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetchCars(1, 7);
-      setCars(response.cars);
-    } catch (err) {
-      setError('Failed to fetch cars. Please try again later.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadCars();
-  }, []);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const displayCars = cars && cars.map(car => <RoadLine key={car.id} car={car} />);
   return (
