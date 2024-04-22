@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useEffect, useState, SetStateAction, Dispatch, useMemo } from 'react';
-import { CarState, CreateCarData, UpdateCarData } from '../types';
-import getCars from '../api/getCars';
-import createCar from '../api/createCar';
-import updateCar from '../api/updateCar';
+import { CarState, CreateCarData, UpdateCarData } from '../../types';
+import getCars from '../../api/getCars';
+import createCar from '../../api/createCar';
+import updateCar from '../../api/updateCar';
 
 interface CarProviderProps {
   children: ReactNode;

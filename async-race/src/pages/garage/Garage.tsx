@@ -2,7 +2,7 @@ import './garage.styles.scss';
 
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
-import { useCarState, useLoadState } from '../../context/contextHook';
+import { useCarState, useLoadState } from '../../context/carContext/contextHook';
 
 const Garage = () => {
   const { carState } = useCarState();

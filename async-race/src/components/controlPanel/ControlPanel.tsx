@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
-import { useCarState } from '../../context/contextHook';
+import { useCarState } from '../../context/carContext/contextHook';
 
 const ControlPanel = () => {
   const [formData, setFormData] = useState({
