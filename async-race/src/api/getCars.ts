@@ -1,12 +1,12 @@
 import { CarData } from '../components/car/Car';
 import makeApiRequest from '../utils/apiRequest';
 
-interface FetchCarsResponse {
+export interface FetchCarsResponse {
   cars: CarData[];
   totalCount?: number;
 }
 
-const fetchCars = async (page?: number, limit?: number): Promise<FetchCarsResponse> => {
+const getCars = async (page?: number, limit?: number): Promise<FetchCarsResponse> => {
   const params = new URLSearchParams();
 
   if (page !== undefined) {
@@ -33,4 +33,4 @@ const fetchCars = async (page?: number, limit?: number): Promise<FetchCarsRespon
   }
 };
 
-export default fetchCars;
+export default getCars;

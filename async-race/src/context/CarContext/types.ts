@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Dispatch } from 'react';
+import { CarData } from '../../components/car/Car';
+import { FetchCarsResponse } from '../../api/getCars';
 
-export interface Car {
-  id: number;
-  name: string;
-  color: string;
-}
-
-// State type
 export interface CarState {
-  cars: Car[];
+  cars: CarData[];
+  totalCount?: number;
   loading: boolean;
   error: Error | null;
 }
@@ -24,9 +20,9 @@ export enum ActionType {
   DELETE_CAR_REQUEST = 'DELETE_CAR_REQUEST',
   DELETE_CAR_SUCCESS = 'DELETE_CAR_SUCCESS',
   DELETE_CAR_FAILURE = 'DELETE_CAR_FAILURE',
-  GENERATE_CARS_REQUEST = 'GENERATE_CARS_REQUEST',
-  GENERATE_CARS_SUCCESS = 'GENERATE_CARS_SUCCESS',
-  GENERATE_CARS_FAILURE = 'GENERATE_CARS_FAILURE',
+  GET_CARS_REQUEST = 'GET_CARS_REQUEST',
+  GET_CARS_SUCCESS = 'GET_CARS_SUCCESS',
+  GET_CARS_FAILURE = 'GET_CARS_FAILURE',
 }
 
 // Request Actions
@@ -42,19 +38,19 @@ export interface DeleteCarRequestAction {
   type: ActionType.DELETE_CAR_REQUEST;
 }
 
-export interface GenerateCarsRequestAction {
-  type: ActionType.GENERATE_CARS_REQUEST;
+export interface GetCarsRequestAction {
+  type: ActionType.GET_CARS_REQUEST;
 }
 
 // Success Actions
 export interface CreateCarSuccessAction {
   type: ActionType.CREATE_CAR_SUCCESS;
-  payload: Car;
+  payload: CarData;
 }
 
 export interface UpdateCarSuccessAction {
   type: ActionType.UPDATE_CAR_SUCCESS;
-  payload: Car;
+  payload: CarData;
 }
 
 export interface DeleteCarSuccessAction {
@@ -62,9 +58,9 @@ export interface DeleteCarSuccessAction {
   payload: number;
 }
 
-export interface GenerateCarsSuccessAction {
-  type: ActionType.GENERATE_CARS_SUCCESS;
-  payload: Car[];
+export interface GetCarsSuccessAction {
+  type: ActionType.GET_CARS_SUCCESS;
+  payload: FetchCarsResponse;
 }
 
 // Failure Actions
@@ -83,8 +79,8 @@ export interface DeleteCarFailureAction {
   payload: Error;
 }
 
-export interface GenerateCarsFailureAction {
-  type: ActionType.GENERATE_CARS_FAILURE;
+export interface GetCarsFailureAction {
+  type: ActionType.GET_CARS_FAILURE;
   payload: Error;
 }
 
@@ -99,9 +95,9 @@ export type CarAction =
   | DeleteCarRequestAction
   | DeleteCarSuccessAction
   | DeleteCarFailureAction
-  | GenerateCarsRequestAction
-  | GenerateCarsSuccessAction
-  | GenerateCarsFailureAction;
+  | GetCarsRequestAction
+  | GetCarsSuccessAction
+  | GetCarsFailureAction;
 
 export interface CarContextType {
   state: CarState;
