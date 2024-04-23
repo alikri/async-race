@@ -3,13 +3,13 @@ import './index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 import reportWebVitals from './reportWebVitals';
 import Layout from './components/layout/layout';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
-import { CarProvider } from './context/carContexts/CarStateContext';
-import { SelectedCarProvider } from './context/carContexts/SelectedCarContext';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,11 +23,9 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <CarProvider>
-      <SelectedCarProvider>
-        <RouterProvider router={router} />
-      </SelectedCarProvider>
-    </CarProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 );
 

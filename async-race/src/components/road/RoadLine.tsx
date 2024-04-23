@@ -1,17 +1,18 @@
 import './roadLine.styles.scss';
+import { useDispatch } from 'react-redux';
 import Car, { CarData } from '../car/Car';
 import ButtonSmall from '../common/button/buttonSmall/ButtonSmall';
-import { useSelectedCar } from '../../context/carContexts/contextHook';
+import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 
 type Props = {
   car: CarData;
 };
 
 const RoadLine = ({ car }: Props) => {
-  const { setSelectedCar } = useSelectedCar();
+  const dispatch = useDispatch();
 
   const handleSelectCar = () => {
-    setSelectedCar(car);
+    dispatch(setSelectedCar(car));
   };
 
   return (

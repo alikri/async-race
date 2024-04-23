@@ -1,18 +1,27 @@
 import './garage.styles.scss';
-
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
-import { useCarState, useLoadState } from '../../context/carContexts/contextHook';
+import { getError, getLoading } from '../../redux/features/load/loadSelectors';
+import { getAllCars } from '../../redux/features/car/carSelectors';
+import { fetchAndUpdateCars } from '../../redux/features/car/carSlice';
+import { AppDispatch } from '../../redux/store';
 
 const Garage = () => {
-  const { carState } = useCarState();
-  const { loading, error } = useLoadState();
-  const { cars } = carState;
+  const dispatch: AppDispatch = useDispatch();
+  const allCars = useSelector(getAllCars);
+  const isLoading = useSelector(getLoading);
+  const error = useSelector(getError);
 
-  if (loading) return <div>Loading...</div>;
+  useEffect(() => {
+    dispatch(fetchAndUpdateCars());
+  }, [dispatch]);
+
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const displayCars = cars && cars.map(car => <RoadLine key={car.id} car={car} />);
+  const displayCars = allCars && allCars.map(car => <RoadLine key={car.id} car={car} />);
   return (
     <div className="garage-container">
       <ControlPanel />

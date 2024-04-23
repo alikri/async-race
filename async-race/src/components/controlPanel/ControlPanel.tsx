@@ -1,14 +1,17 @@
 /* eslint-disable no-console */
 import './controlPanel.styles.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
-import { useCarState, useSelectedCar } from '../../context/carContexts/contextHook';
+import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
+import { addCar, updateExistingCar } from '../../redux/features/car/carSlice';
+import { AppDispatch } from '../../redux/store';
 
 const ControlPanel = () => {
-  const { addCar, updateExistingCar } = useCarState();
-  const { selectedCar } = useSelectedCar();
+  const dispatch: AppDispatch = useDispatch();
+  const selectedCar = useSelector(getSelectedCar);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -41,7 +44,7 @@ const ControlPanel = () => {
       color: formData.color,
     };
 
-    addCar(createCarData);
+    dispatch(addCar(createCarData));
   };
 
   const handleUpdateClick = () => {
@@ -51,7 +54,8 @@ const ControlPanel = () => {
         name: formData.updateCarName,
         color: formData.updateColor,
       };
-      updateExistingCar(updateCarData);
+
+      dispatch(updateExistingCar(updateCarData));
     }
   };
 
