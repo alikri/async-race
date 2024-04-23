@@ -6,6 +6,11 @@ interface DriveState {
   driveModes: DriveMode[];
 }
 
+interface RejectedCarResponse {
+  id: number;
+  drive: boolean;
+}
+
 const initialState: DriveState = {
   driveModes: [],
 };
@@ -21,13 +26,14 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
   }
 });
 
-export const switchToDriveMode = createAsyncThunk('drive/brakeEngine', async (id: number) => {
-  const isDrive = await driveCarEngine(id);
-
-  if (isDrive.success) {
-    return null;
+// eslint-disable-next-line consistent-return
+export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (id: number, { rejectWithValue }) => {
+  try {
+    await driveCarEngine(id);
+  } catch (error) {
+    console.error('Error starting car engine:', error);
+    return rejectWithValue({ id, drive: false });
   }
-  return { id, drive: false };
 });
 
 export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
@@ -64,12 +70,11 @@ const driveSlice = createSlice({
           state.driveModes.push(action.payload);
         }
       })
-      .addCase(switchToDriveMode.fulfilled, (state, action) => {
-        if (action.payload) {
-          const existingMode = state.driveModes.find(mode => mode.id === action.payload?.id);
-          if (existingMode) {
-            existingMode.drive = action.payload.drive;
-          }
+      .addCase(switchToDriveMode.rejected, (state, action) => {
+        const actionPayload = action.payload as RejectedCarResponse;
+        const existingMode = state.driveModes.find(mode => mode.id === actionPayload.id);
+        if (existingMode) {
+          existingMode.drive = actionPayload.drive;
         }
       });
   },

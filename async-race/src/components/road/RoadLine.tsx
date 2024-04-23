@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import './roadLine.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -23,7 +24,7 @@ const RoadLine = ({ car }: Props) => {
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
 
   // eslint-disable-next-line no-console
-  console.log(roadDistanceRef);
+  console.log(driveData?.drive);
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -47,11 +48,20 @@ const RoadLine = ({ car }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (driveData && driveData.drive && carRef.current) {
+    let cancelAnimation: () => void;
+
+    if (driveData && carRef.current) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
-      animateCar(carRef.current, calculatedTime, totalWidth);
+
+      cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
     }
+
+    return () => {
+      if (cancelAnimation) {
+        cancelAnimation();
+      }
+    };
   }, [driveData]);
 
   const handleSelectCar = () => {

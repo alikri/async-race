@@ -30,10 +30,15 @@ export const stopCarEngine = async (id: number): Promise<DriveResponse> => {
 };
 
 export const driveCarEngine = async (id: number): Promise<{ success: boolean }> => {
-  const { data } = await makeApiRequest<{ success: boolean }>({
-    endpoint: '/engine',
-    method: 'PATCH',
-    params: { id: id.toString(), status: 'drive' },
-  });
-  return data;
+  try {
+    const { data } = await makeApiRequest<{ success: boolean }>({
+      endpoint: '/engine',
+      method: 'PATCH',
+      params: { id: id.toString(), status: 'drive' },
+    });
+    return data;
+  } catch (error) {
+    console.error('Engine failed');
+    throw error;
+  }
 };
