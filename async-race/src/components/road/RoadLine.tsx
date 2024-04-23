@@ -3,16 +3,22 @@ import { useDispatch } from 'react-redux';
 import Car, { CarData } from '../car/Car';
 import ButtonSmall from '../common/button/buttonSmall/ButtonSmall';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
+import { deleteExistingCar } from '../../redux/features/car/carSlice';
+import { AppDispatch } from '../../redux/store';
 
 type Props = {
   car: CarData;
 };
 
 const RoadLine = ({ car }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSelectCar = () => {
     dispatch(setSelectedCar(car));
+  };
+
+  const handleDeleteCar = () => {
+    dispatch(deleteExistingCar(car.id));
   };
 
   return (
@@ -22,7 +28,7 @@ const RoadLine = ({ car }: Props) => {
           <button className="button-medium" type="button" onClick={handleSelectCar}>
             Select
           </button>
-          <button className="button-medium" type="button">
+          <button className="button-medium" type="button" onClick={handleDeleteCar}>
             Remove
           </button>
         </div>

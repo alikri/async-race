@@ -4,6 +4,8 @@ import createCar from '../../../api/createCar';
 import updateCar from '../../../api/updateCar';
 import { CreateCarData, UpdateCarData } from '../../../types';
 import { CarData } from '../../../components/car/Car';
+import deleteCar from '../../../api/deleteCar';
+import { RootState } from '../../store';
 
 interface CarState {
   cars: CarData[];
@@ -30,6 +32,21 @@ export const updateExistingCar = createAsyncThunk('cars/updateCar', async (updat
   return { updatedCar, id: updateCarData.id };
 });
 
+export const deleteExistingCar = createAsyncThunk<number, number, { state: RootState }>(
+  'cars/deleteCar',
+  async (carId, { rejectWithValue }) => {
+    try {
+      await deleteCar(carId);
+      return carId;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  },
+);
+
 const carsSlice = createSlice({
   name: 'cars',
   initialState,
@@ -52,6 +69,10 @@ const carsSlice = createSlice({
         if (index !== -1) {
           state.cars[index] = { ...state.cars[index], ...action.payload.updatedCar };
         }
+      })
+      .addCase(deleteExistingCar.fulfilled, (state, action: PayloadAction<number>) => {
+        state.cars = state.cars.filter(car => car.id !== action.payload);
+        state.totalCount -= 1;
       });
   },
 });
