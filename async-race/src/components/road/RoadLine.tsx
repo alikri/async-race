@@ -5,7 +5,7 @@ import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
-import { brakeCarEngine, startCarDrive, stopCarDrive } from '../../redux/features/drive/driveSlice';
+import { switchToDriveMode, startCarDrive, stopCarDrive } from '../../redux/features/drive/driveSlice';
 import debounce from '../../utils/debounce';
 import selectDriveDataById from '../../redux/features/drive/driveSelectors';
 import animateCar from '../../utils/animateCar';
@@ -64,7 +64,7 @@ const RoadLine = ({ car }: Props) => {
 
   const handleStart = () => {
     dispatch(startCarDrive(car.id));
-    // dispatch(brakeCarEngine(car.id));
+    dispatch(switchToDriveMode(car.id));
   };
 
   const handleStop = () => {
