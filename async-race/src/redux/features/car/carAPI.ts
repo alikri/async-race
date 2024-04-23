@@ -5,7 +5,6 @@ import createCar from '../../../api/createCar';
 import updateCar from '../../../api/updateCar';
 import { RootState } from '../../store';
 import deleteCar from '../../../api/deleteCar';
-import { startCarEngine, stopCarEngine } from '../../../api/handleDrive';
 
 export const fetchAndUpdateCars = createAsyncThunk('cars/fetchAndUpdate', async (_, { rejectWithValue }) => {
   try {

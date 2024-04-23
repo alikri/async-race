@@ -1,11 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import getCars from '../../../api/getCars';
-import createCar from '../../../api/createCar';
-import updateCar from '../../../api/updateCar';
-import { CreateCarData, UpdateCarData } from '../../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CarData } from '../../../components/car/Car';
-import deleteCar from '../../../api/deleteCar';
-import { RootState } from '../../store';
 import { addCar, deleteExistingCar, fetchAndUpdateCars, updateExistingCar } from './carAPI';
 
 interface CarState {

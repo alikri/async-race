@@ -1,7 +1,6 @@
-// src/redux/slices/driveSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
-import { startCarEngine, stopCarEngine } from '../../../api/handleDrive';
+import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/handleDrive';
 
 interface DriveState {
   driveModes: DriveMode[];
@@ -11,9 +10,10 @@ const initialState: DriveState = {
   driveModes: [],
 };
 
-export const startEngine = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
+export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
   try {
     const data = await startCarEngine(id);
+
     return { id, drive: true, driveData: data };
   } catch (error) {
     console.error('Error starting car engine:', error);
@@ -21,7 +21,21 @@ export const startEngine = createAsyncThunk('drive/startEngine', async (id: numb
   }
 });
 
-export const stopEngine = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
+export const brakeCarEngine = createAsyncThunk('drive/brakeEngine', async (id: number, { rejectWithValue }) => {
+  try {
+    const isDrive = await driveCarEngine(id);
+
+    if (!isDrive.success) {
+      throw new Error('Braking failed.');
+    }
+    return { id, drive: false };
+  } catch (error) {
+    console.error('Error starting car engine:', error);
+    return rejectWithValue({ id, drive: false });
+  }
+});
+
+export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
   try {
     const data = await stopCarEngine(id);
     return { id, drive: false, driveData: data };
@@ -37,7 +51,7 @@ const driveSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(startEngine.fulfilled, (state, action: PayloadAction<DriveMode>) => {
+      .addCase(startCarDrive.fulfilled, (state, action: PayloadAction<DriveMode>) => {
         const existingMode = state.driveModes.find(mode => mode.id === action.payload.id);
         if (existingMode) {
           existingMode.drive = true;
@@ -46,7 +60,7 @@ const driveSlice = createSlice({
           state.driveModes.push(action.payload);
         }
       })
-      .addCase(stopEngine.fulfilled, (state, action: PayloadAction<DriveMode>) => {
+      .addCase(stopCarDrive.fulfilled, (state, action: PayloadAction<DriveMode>) => {
         const existingMode = state.driveModes.find(mode => mode.id === action.payload.id);
         if (existingMode) {
           existingMode.drive = false;
@@ -54,6 +68,19 @@ const driveSlice = createSlice({
         } else {
           state.driveModes.push(action.payload);
         }
+      })
+      .addCase(brakeCarEngine.fulfilled, (state, action) => {
+        const existingMode = state.driveModes.find(mode => mode.id === action.payload.id);
+        if (existingMode) {
+          existingMode.drive = false;
+        }
+      })
+      .addCase(brakeCarEngine.rejected, (state, action) => {
+        const existingMode = state.driveModes.find(mode => mode.id === action.meta.arg);
+        if (existingMode) {
+          existingMode.drive = false;
+        }
+        console.error('Failed to brake:', action.error?.message);
       });
   },
 });
