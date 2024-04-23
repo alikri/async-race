@@ -6,8 +6,8 @@ import InputText from '../common/input/inputText/inputText';
 import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
-import { addCar, updateExistingCar } from '../../redux/features/car/carSlice';
 import { AppDispatch } from '../../redux/store';
+import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 
 const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();

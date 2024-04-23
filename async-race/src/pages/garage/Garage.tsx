@@ -5,8 +5,8 @@ import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
 import { getError, getLoading } from '../../redux/features/load/loadSelectors';
 import { getAllCars } from '../../redux/features/car/carSelectors';
-import { fetchAndUpdateCars } from '../../redux/features/car/carSlice';
 import { AppDispatch } from '../../redux/store';
+import { fetchAndUpdateCars } from '../../redux/features/car/carAPI';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();

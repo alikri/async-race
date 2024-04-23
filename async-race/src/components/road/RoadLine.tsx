@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import Car, { CarData } from '../car/Car';
 import ButtonSmall from '../common/button/buttonSmall/ButtonSmall';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
-import { deleteExistingCar } from '../../redux/features/car/carSlice';
 import { AppDispatch } from '../../redux/store';
+import { deleteExistingCar } from '../../redux/features/car/carAPI';
 
 type Props = {
   car: CarData;
