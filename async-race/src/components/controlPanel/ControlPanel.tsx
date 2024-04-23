@@ -8,10 +8,13 @@ import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
 import { AppDispatch } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
+import { getAllCars } from '../../redux/features/car/carSelectors';
+import { initiateCarRace } from '../../redux/features/drive/driveSlice';
 
 const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
+  const cars = useSelector(getAllCars);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -59,7 +62,11 @@ const ControlPanel = () => {
     }
   };
 
-  const handleRaceClick = () => console.log('Race button clicked');
+  const handleRaceClick = () => {
+    cars.forEach(car => {
+      dispatch(initiateCarRace(car.id));
+    });
+  };
   const handleResetClick = () => console.log('Reset button clicked');
 
   return (

@@ -8,9 +8,10 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
 import { switchToDriveMode, startCarDrive, stopCarDrive } from '../../redux/features/drive/driveSlice';
 import debounce from '../../utils/debounce';
-import selectDriveDataById from '../../redux/features/drive/driveSelectors';
+
 import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
+import selectDriveDataById from '../../redux/features/drive/driveSelectors';
 
 type Props = {
   car: CarData;
@@ -22,9 +23,6 @@ const RoadLine = ({ car }: Props) => {
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
-
-  // eslint-disable-next-line no-console
-  console.log(driveData?.drive);
 
   const updateWidth = () => {
     if (distanceRef.current) {

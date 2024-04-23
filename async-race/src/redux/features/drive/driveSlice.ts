@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
 import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/handleDrive';
+import { AppDispatch } from '../../store';
 
 interface DriveState {
   driveModes: DriveMode[];
@@ -45,6 +46,15 @@ export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: numb
     return rejectWithValue('Failed to stop engine');
   }
 });
+
+export const initiateCarRace = (carId: number) => async (dispatch: AppDispatch) => {
+  try {
+    await dispatch(startCarDrive(carId)).unwrap();
+    await dispatch(switchToDriveMode(carId));
+  } catch (error) {
+    console.error('Failed to initiate race for car:', error);
+  }
+};
 
 const driveSlice = createSlice({
   name: 'drive',
