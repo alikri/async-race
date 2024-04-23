@@ -72,9 +72,11 @@ const RoadLine = ({ car }: Props) => {
     dispatch(deleteExistingCar(car.id));
   };
 
-  const handleStart = () => {
-    dispatch(startCarDrive(car.id));
-    dispatch(switchToDriveMode(car.id));
+  const handleStart = async () => {
+    await dispatch(startCarDrive(car.id))
+      .unwrap()
+      .then(() => dispatch(switchToDriveMode(car.id)))
+      .catch(error => console.error('Failed to start or switch drive mode:', error));
   };
 
   const handleStop = () => {
