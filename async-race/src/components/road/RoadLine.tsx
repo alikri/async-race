@@ -22,6 +22,7 @@ const RoadLine = ({ car }: Props) => {
   const distanceRef = useRef<HTMLDivElement>(null);
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
+  const resetState = useSelector((state: RootState) => state.race.resetState);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
 
   const updateWidth = () => {
@@ -61,6 +62,13 @@ const RoadLine = ({ car }: Props) => {
       }
     };
   }, [driveData]);
+
+  useEffect(() => {
+    if (resetState && carRef.current) {
+      carRef.current.style.transform = 'translateX(0px)';
+      // dispatch(stopCarDrive(car.id));
+    }
+  }, [resetState, dispatch]);
 
   const handleSelectCar = () => {
     dispatch(setSelectedCar(car));

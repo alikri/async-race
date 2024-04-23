@@ -9,7 +9,7 @@ import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelector
 import { AppDispatch } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
-import { initiateCarRace } from '../../redux/features/drive/driveSlice';
+import { initiateCarRace, resetRace } from '../../redux/features/race/raceSlice';
 
 const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,11 +63,14 @@ const ControlPanel = () => {
   };
 
   const handleRaceClick = () => {
+    dispatch(resetRace(false));
     cars.forEach(car => {
       dispatch(initiateCarRace(car.id));
     });
   };
-  const handleResetClick = () => console.log('Reset button clicked');
+  const handleResetClick = () => {
+    dispatch(resetRace(true));
+  };
 
   return (
     <>

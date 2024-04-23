@@ -47,15 +47,6 @@ export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: numb
   }
 });
 
-export const initiateCarRace = (carId: number) => async (dispatch: AppDispatch) => {
-  try {
-    await dispatch(startCarDrive(carId)).unwrap();
-    await dispatch(switchToDriveMode(carId));
-  } catch (error) {
-    console.error('Failed to initiate race for car:', error);
-  }
-};
-
 const driveSlice = createSlice({
   name: 'drive',
   initialState,
