@@ -21,18 +21,13 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
   }
 });
 
-export const switchToDriveMode = createAsyncThunk('drive/brakeEngine', async (id: number, { rejectWithValue }) => {
-  try {
-    const isDrive = await driveCarEngine(id);
+export const switchToDriveMode = createAsyncThunk('drive/brakeEngine', async (id: number) => {
+  const isDrive = await driveCarEngine(id);
 
-    if (!isDrive.success) {
-      throw new Error();
-    }
-    return { id, drive: false };
-  } catch (error) {
-    console.error('Car broke:', error);
-    return rejectWithValue({ id, drive: false });
+  if (isDrive.success) {
+    return null;
   }
+  return { id, drive: false };
 });
 
 export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
@@ -70,17 +65,12 @@ const driveSlice = createSlice({
         }
       })
       .addCase(switchToDriveMode.fulfilled, (state, action) => {
-        const existingMode = state.driveModes.find(mode => mode.id === action.payload.id);
-        if (existingMode) {
-          existingMode.drive = false;
+        if (action.payload) {
+          const existingMode = state.driveModes.find(mode => mode.id === action.payload?.id);
+          if (existingMode) {
+            existingMode.drive = action.payload.drive;
+          }
         }
-      })
-      .addCase(switchToDriveMode.rejected, (state, action) => {
-        const existingMode = state.driveModes.find(mode => mode.id === action.meta.arg);
-        if (existingMode) {
-          existingMode.drive = false;
-        }
-        console.error('Failed to brake:', action.error?.message);
       });
   },
 });
