@@ -20,3 +20,14 @@ export interface CreateCarData {
 export interface ProviderProps {
   children: ReactNode;
 }
+
+export interface DriveResponse {
+  velocity: number;
+  distance: number;
+}
+
+export interface DriveMode {
+  id: number;
+  drive: boolean;
+  driveData: DriveResponse;
+}

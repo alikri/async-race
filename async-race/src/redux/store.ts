@@ -1,14 +1,16 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 
-import carsReducer from './features/car/carSlice'; // Adjust the path as necessary
+import carsReducer from './features/car/carSlice';
 import loadReducer from './features/load/loadSlice';
 import selectedCarReducer from './features/selectedCar/selectedCarSlice';
+import driveReducer from './features/drive/driveSlice';
 
 const store = configureStore({
   reducer: {
     cars: carsReducer,
     load: loadReducer,
     selectedCar: selectedCarReducer,
+    drive: driveReducer,
   },
 });
 
