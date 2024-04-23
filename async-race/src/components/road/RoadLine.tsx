@@ -16,18 +16,18 @@ type Props = {
 };
 
 const RoadLine = ({ car }: Props) => {
-  const [roadDistance, setRoadDistance] = useState(0);
   const dispatch: AppDispatch = useDispatch();
   const distanceRef = useRef<HTMLDivElement>(null);
+  const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
 
   // eslint-disable-next-line no-console
-  console.log(roadDistance);
+  console.log(roadDistanceRef);
 
   const updateWidth = () => {
     if (distanceRef.current) {
-      setRoadDistance(distanceRef.current.offsetWidth);
+      roadDistanceRef.current = distanceRef.current.offsetWidth;
     }
   };
 
@@ -38,6 +38,7 @@ const RoadLine = ({ car }: Props) => {
 
     updateWidth();
 
+    handleResize();
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -48,10 +49,10 @@ const RoadLine = ({ car }: Props) => {
   useEffect(() => {
     if (driveData && driveData.drive && carRef.current) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
-      const totalWidth = carRef.current.offsetWidth + roadDistance + EXTRA_CAR_GAP;
+      const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
       animateCar(carRef.current, calculatedTime, totalWidth);
     }
-  }, [driveData, roadDistance]);
+  }, [driveData]);
 
   const handleSelectCar = () => {
     dispatch(setSelectedCar(car));
