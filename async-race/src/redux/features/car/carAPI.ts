@@ -6,20 +6,44 @@ import updateCar from '../../../api/updateCar';
 import { RootState } from '../../store';
 import deleteCar from '../../../api/deleteCar';
 
-export const fetchAndUpdateCars = createAsyncThunk('cars/fetchAndUpdate', async () => {
-  const response = await getCars();
-  return response;
+export const fetchAndUpdateCars = createAsyncThunk('cars/fetchAndUpdate', async (_, { rejectWithValue }) => {
+  try {
+    const response = await getCars();
+    return response;
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue('Failed to fetch cars');
+  }
 });
 
-export const addCar = createAsyncThunk('cars/addCar', async (newCarData: CreateCarData) => {
-  const newCar = await createCar(newCarData);
-  return newCar;
+export const addCar = createAsyncThunk('cars/addCar', async (newCarData: CreateCarData, { rejectWithValue }) => {
+  try {
+    const newCar = await createCar(newCarData);
+    return newCar;
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue('Failed to add car');
+  }
 });
 
-export const updateExistingCar = createAsyncThunk('cars/updateCar', async (updateCarData: UpdateCarData) => {
-  const updatedCar = await updateCar(updateCarData);
-  return { updatedCar, id: updateCarData.id };
-});
+export const updateExistingCar = createAsyncThunk(
+  'cars/updateCar',
+  async (updateCarData: UpdateCarData, { rejectWithValue }) => {
+    try {
+      const updatedCar = await updateCar(updateCarData);
+      return { updatedCar, id: updateCarData.id };
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Failed to update car');
+    }
+  },
+);
 
 export const deleteExistingCar = createAsyncThunk<number, number, { state: RootState }>(
   'cars/deleteCar',
