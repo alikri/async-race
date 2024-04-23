@@ -1,32 +1,40 @@
 import './roadLine.styles.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
 import { startEngine, stopEngine } from '../../redux/features/drive/driveSlice';
 import debounce from '../../utils/debounce';
+import selectDriveDataById from '../../redux/features/drive/driveSelectors';
+import animateCar from '../../utils/animateCar';
+import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 
 type Props = {
   car: CarData;
 };
 
 const RoadLine = ({ car }: Props) => {
-  const [width, setWidth] = useState(0);
+  const [roadDistance, setRoadDistance] = useState(0);
   const dispatch: AppDispatch = useDispatch();
   const distanceRef = useRef<HTMLDivElement>(null);
+  const carRef = useRef<HTMLDivElement>(null);
+  const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
+
+  // eslint-disable-next-line no-console
+  console.log(roadDistance);
 
   const updateWidth = () => {
     if (distanceRef.current) {
-      setWidth(distanceRef.current.offsetWidth);
+      setRoadDistance(distanceRef.current.offsetWidth);
     }
   };
 
   useEffect(() => {
     const handleResize = debounce(() => {
       updateWidth();
-    }, 250);
+    }, UPDATE_IN);
 
     updateWidth();
 
@@ -36,6 +44,14 @@ const RoadLine = ({ car }: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (driveData && driveData.drive && carRef.current) {
+      const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
+      const totalWidth = carRef.current.offsetWidth + roadDistance + EXTRA_CAR_GAP;
+      animateCar(carRef.current, calculatedTime, totalWidth);
+    }
+  }, [driveData, roadDistance]);
 
   const handleSelectCar = () => {
     dispatch(setSelectedCar(car));
@@ -74,7 +90,7 @@ const RoadLine = ({ car }: Props) => {
         </div>
       </div>
       <div className="car-name-container">{car.name}</div>
-      <div className="car-container">
+      <div className="car-container" ref={carRef}>
         <Car car={car} />
       </div>
       <div className="race-road" ref={distanceRef} />
