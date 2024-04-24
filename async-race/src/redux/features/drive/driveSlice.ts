@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
 import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/handleDrive';
-import { AppDispatch } from '../../store';
 
 interface DriveState {
   driveModes: DriveMode[];
