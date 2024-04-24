@@ -6,7 +6,7 @@ import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
-import { switchToDriveMode, startCarDrive, stopCarDrive } from '../../redux/features/drive/driveSlice';
+import { switchToDriveMode, startCarDrive, stopCarDrive, resetCarState } from '../../redux/features/drive/driveSlice';
 import debounce from '../../utils/debounce';
 
 import animateCar from '../../utils/animateCar';
@@ -22,7 +22,6 @@ const RoadLine = ({ car }: Props) => {
   const distanceRef = useRef<HTMLDivElement>(null);
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
-  const resetState = useSelector((state: RootState) => state.race.resetState);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
 
   const updateWidth = () => {
@@ -48,12 +47,14 @@ const RoadLine = ({ car }: Props) => {
 
   useEffect(() => {
     let cancelAnimation: () => void;
-
     if (driveData && carRef.current) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
-
       cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
+    }
+
+    if (driveData?.reset && carRef.current) {
+      carRef.current.style.transform = 'translateX(0px)';
     }
 
     return () => {
@@ -62,13 +63,6 @@ const RoadLine = ({ car }: Props) => {
       }
     };
   }, [driveData]);
-
-  useEffect(() => {
-    if (resetState && carRef.current) {
-      carRef.current.style.transform = 'translateX(0px)';
-      // dispatch(stopCarDrive(car.id));
-    }
-  }, [resetState, dispatch]);
 
   const handleSelectCar = () => {
     dispatch(setSelectedCar(car));
@@ -85,8 +79,11 @@ const RoadLine = ({ car }: Props) => {
       .catch(error => console.error('Failed to start or switch drive mode:', error));
   };
 
-  const handleStop = () => {
-    dispatch(stopCarDrive(car.id));
+  const handleStop = async () => {
+    await dispatch(stopCarDrive(car.id))
+      .unwrap()
+      .then(() => dispatch(resetCarState(car.id)))
+      .catch(error => console.error('Failed to reset car race', error));
   };
 
   return (

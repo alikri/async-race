@@ -20,7 +20,7 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
   try {
     const data = await startCarEngine(id);
 
-    return { id, drive: true, driveData: data };
+    return { id, drive: true, driveData: data, reset: false };
   } catch (error) {
     console.error('Error starting car engine:', error);
     return rejectWithValue('Failed to start engine');
@@ -40,11 +40,15 @@ export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (
 export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
   try {
     const data = await stopCarEngine(id);
-    return { id, drive: false, driveData: data };
+    return { id, drive: false, driveData: data, reset: false };
   } catch (error) {
     console.error('Error stopping car engine:', error);
     return rejectWithValue('Failed to stop engine');
   }
+});
+
+export const resetCarState = createAsyncThunk('drive/resetCar', async (id: number) => {
+  return { id, reset: true };
 });
 
 const driveSlice = createSlice({
@@ -58,6 +62,7 @@ const driveSlice = createSlice({
         if (existingMode) {
           existingMode.drive = true;
           existingMode.driveData = action.payload.driveData;
+          existingMode.reset = false;
         } else {
           state.driveModes.push(action.payload);
         }
@@ -67,8 +72,16 @@ const driveSlice = createSlice({
         if (existingMode) {
           existingMode.drive = false;
           existingMode.driveData = action.payload.driveData;
+          existingMode.reset = false;
         } else {
           state.driveModes.push(action.payload);
+        }
+      })
+      .addCase(resetCarState.fulfilled, (state, action: PayloadAction<{ id: number; reset: boolean }>) => {
+        const existingMode = state.driveModes.find(mode => mode.id === action.payload.id);
+        if (existingMode) {
+          existingMode.reset = action.payload.reset;
+          existingMode.drive = false;
         }
       })
       .addCase(switchToDriveMode.rejected, (state, action) => {

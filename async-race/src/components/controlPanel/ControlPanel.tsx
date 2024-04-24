@@ -9,7 +9,7 @@ import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelector
 import { AppDispatch } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
-import { initiateCarRace, resetRace } from '../../redux/features/race/raceSlice';
+import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 
 const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,13 +63,18 @@ const ControlPanel = () => {
   };
 
   const handleRaceClick = () => {
-    dispatch(resetRace(false));
-    cars.forEach(car => {
-      dispatch(initiateCarRace(car.id));
+    cars.forEach(async car => {
+      await dispatch(startCarDrive(car.id))
+        .unwrap()
+        .then(() => dispatch(switchToDriveMode(car.id)))
+        .catch(error => console.error('Failed to start race', error));
     });
   };
+
   const handleResetClick = () => {
-    dispatch(resetRace(true));
+    cars.forEach(car => {
+      dispatch(resetCarState(car.id));
+    });
   };
 
   return (
