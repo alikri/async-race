@@ -59,28 +59,3 @@ export const deleteExistingCar = createAsyncThunk<number, number, { state: RootS
     }
   },
 );
-
-// Redux thunks
-// export const startEngine = createAsyncThunk('cars/startEngine', async (id, { rejectWithValue }) => {
-//   try {
-//     const data = await startCarEngine(id);
-//     return data;
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       return rejectWithValue(error.message);
-//     }
-//     return rejectWithValue('An unknown error occurred');
-//   }
-// });
-
-// export const stopEngine = createAsyncThunk('cars/stopEngine', async (id, { rejectWithValue }) => {
-//   try {
-//     const data = await stopCarEngine(id);
-//     return data;
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       return rejectWithValue(error.message);
-//     }
-//     return rejectWithValue('An unknown error occurred');
-//   }
-// });
