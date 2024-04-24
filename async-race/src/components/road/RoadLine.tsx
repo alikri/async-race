@@ -6,12 +6,18 @@ import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
-import { switchToDriveMode, startCarDrive, stopCarDrive, resetCarState } from '../../redux/features/drive/driveSlice';
+import {
+  switchToDriveMode,
+  startCarDrive,
+  stopCarDrive,
+  resetCarState,
+  stopAnimationDriveMode,
+} from '../../redux/features/drive/driveSlice';
 import debounce from '../../utils/debounce';
 
 import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
-import selectDriveDataById from '../../redux/features/drive/driveSelectors';
+import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
 
 type Props = {
   car: CarData;
@@ -50,11 +56,9 @@ const RoadLine = ({ car }: Props) => {
     if (driveData && carRef.current) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
-      cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
-    }
-
-    if (driveData?.reset && carRef.current) {
-      carRef.current.style.transform = 'translateX(0px)';
+      cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive, () => {
+        dispatch(stopAnimationDriveMode({ id: car.id }));
+      });
     }
 
     return () => {
@@ -62,6 +66,12 @@ const RoadLine = ({ car }: Props) => {
         cancelAnimation();
       }
     };
+  }, [driveData, car.id, dispatch]);
+
+  useEffect(() => {
+    if (driveData?.reset && carRef.current) {
+      carRef.current.style.transform = 'translateX(0px)';
+    }
   }, [driveData]);
 
   const handleSelectCar = () => {

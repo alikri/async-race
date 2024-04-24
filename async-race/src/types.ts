@@ -31,4 +31,5 @@ export interface DriveMode {
   drive: boolean;
   driveData: DriveResponse;
   reset: boolean;
+  broken: boolean;
 }
