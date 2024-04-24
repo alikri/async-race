@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import getCars from '../../../api/getCars';
+import getCars from '../../../api/carAPI/getCars';
 import { CreateCarData, UpdateCarData } from '../../../types';
-import createCar from '../../../api/createCar';
-import updateCar from '../../../api/updateCar';
+import createCar from '../../../api/carAPI/createCar';
+import updateCar from '../../../api/carAPI/updateCar';
 import { RootState } from '../../store';
-import deleteCar from '../../../api/deleteCar';
+import deleteCar from '../../../api/carAPI/deleteCar';
 
 export const fetchAndUpdateCars = createAsyncThunk('cars/fetchAndUpdate', async (_, { rejectWithValue }) => {
   try {

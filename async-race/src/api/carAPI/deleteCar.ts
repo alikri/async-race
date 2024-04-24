@@ -1,4 +1,4 @@
-import makeApiRequest from '../utils/apiRequest';
+import makeApiRequest from '../../utils/apiRequest';
 
 const deleteCar = async (id: number): Promise<void> => {
   const endpoint = `/garage/${id}`;

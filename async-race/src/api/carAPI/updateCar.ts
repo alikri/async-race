@@ -1,6 +1,6 @@
-import makeApiRequest from '../utils/apiRequest';
-import { CarData } from '../components/car/Car';
-import { UpdateCarData } from '../types';
+import makeApiRequest from '../../utils/apiRequest';
+import { CarData } from '../../components/car/Car';
+import { UpdateCarData } from '../../types';
 
 const updateCar = async (updateCarData: UpdateCarData): Promise<CarData> => {
   const { id, name, color } = updateCarData;

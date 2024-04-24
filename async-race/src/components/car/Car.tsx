@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './car.styles.scss';
 import CarIcon from './CarIcon';
 

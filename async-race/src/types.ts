@@ -33,3 +33,10 @@ export interface DriveMode {
   reset: boolean;
   broken: boolean;
 }
+
+// winner types
+export interface WinnerData {
+  id: number;
+  wins: number;
+  time: number;
+}

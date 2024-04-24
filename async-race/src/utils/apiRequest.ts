@@ -1,7 +1,7 @@
 interface RequestOptions {
   endpoint: string;
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-  body?: Record<string, string>;
+  body?: Record<string, string | number>;
   params?: URLSearchParams | Record<string, string>;
   headers?: Record<string, string>;
 }

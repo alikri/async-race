@@ -1,5 +1,5 @@
-import { CarData } from '../components/car/Car';
-import makeApiRequest from '../utils/apiRequest';
+import { CarData } from '../../components/car/Car';
+import makeApiRequest from '../../utils/apiRequest';
 
 export interface FetchCarsResponse {
   cars: CarData[];

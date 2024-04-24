@@ -1,5 +1,5 @@
-import makeApiRequest from '../utils/apiRequest';
-import { DriveResponse } from '../types';
+import makeApiRequest from '../../utils/apiRequest';
+import { DriveResponse } from '../../types';
 
 export const startCarEngine = async (id: number): Promise<DriveResponse> => {
   try {

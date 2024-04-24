@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
-import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/handleDrive';
+import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/carAPI/handleDrive';
 
 interface CarStatus {
   id: number;
