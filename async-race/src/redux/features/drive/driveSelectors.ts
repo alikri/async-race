@@ -6,11 +6,11 @@ export const selectDriveDataById = (state: RootState, carId: number) => {
 };
 
 export const selectRaceStatusById = (state: RootState, carId: number) => {
-  const driveMode = state.drive.raceStatus.find(status => status.id === carId);
-  return driveMode || null;
+  const raceStatusData = state.drive.raceStatus.find(status => status.id === carId);
+  return raceStatusData || null;
 };
 
 export const selectWinnerId = (state: RootState) => {
-  const driveMode = state.drive.winner;
-  return driveMode || null;
+  const winnerId = state.drive.winner;
+  return winnerId || null;
 };
