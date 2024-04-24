@@ -36,10 +36,10 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
   }
 });
 
-// eslint-disable-next-line consistent-return
 export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (id: number, { rejectWithValue }) => {
   try {
     await driveCarEngine(id);
+    return null;
   } catch (error) {
     console.error('Error starting car engine:', error);
     return rejectWithValue({ id, drive: false });
