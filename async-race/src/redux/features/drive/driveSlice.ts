@@ -28,8 +28,6 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
       reset: false,
       broken: false,
       finished: false,
-      finishTime: null,
-      startTime,
     };
   } catch (error) {
     console.error('Error starting car engine:', error);
@@ -58,8 +56,6 @@ export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: numb
       reset: false,
       broken: false,
       finished: true,
-      finishTime,
-      startTime: null,
     };
   } catch (error) {
     console.error('Error stopping car engine:', error);
@@ -102,8 +98,6 @@ const driveSlice = createSlice({
             drive: false,
             broken: false,
             finished: false,
-            finishTime: null,
-            startTime: null,
           };
         }
       })
