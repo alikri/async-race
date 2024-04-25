@@ -122,6 +122,7 @@ const driveSlice = createSlice({
           existingMode.reset = action.payload.reset;
           existingMode.drive = false;
           existingMode.broken = false;
+          state.winner = null;
         }
       })
       .addCase(switchToDriveMode.rejected, (state, action) => {

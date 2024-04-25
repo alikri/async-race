@@ -4,7 +4,7 @@ import {
   addWinner,
   updateExistingWinner,
   deleteExistingWinner,
-  fetchWinner,
+  getExistingWinner,
 } from './winnersAPI';
 import { WinnerData } from '../../../types';
 
@@ -58,13 +58,13 @@ const winnersSlice = createSlice({
       .addCase(deleteExistingWinner.fulfilled, (state, action) => {
         state.winners = state.winners.filter(winner => winner.id !== action.payload);
       })
-      .addCase(fetchWinner.pending, state => {
+      .addCase(getExistingWinner.pending, state => {
         state.loading = true;
       })
-      .addCase(fetchWinner.fulfilled, (state, action) => {
+      .addCase(getExistingWinner.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(fetchWinner.rejected, (state, action) => {
+      .addCase(getExistingWinner.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loading = false;
       });

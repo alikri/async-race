@@ -63,12 +63,18 @@ export const deleteExistingWinner = createAsyncThunk(
   },
 );
 
-export const fetchWinner = createAsyncThunk('winners/fetchWinner', async (id: number, { rejectWithValue }) => {
+export const getExistingWinner = createAsyncThunk('winners/fetchWinner', async (id: number, { rejectWithValue }) => {
   try {
     const winnerData = await getWinner(id);
     return winnerData;
   } catch (error) {
     console.error(`Failed to fetch winner with ID ${id}:`, error);
-    return rejectWithValue('Failed to fetch winner');
+    try {
+      const newWinner = await createWinner({ id, wins: 1, time: 0 });
+      return newWinner;
+    } catch (createError) {
+      console.error('Failed to create a new winner:', createError);
+      return rejectWithValue('Failed to create a new winner:');
+    }
   }
 });

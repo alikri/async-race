@@ -15,7 +15,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Garage />} />
-      <Route index element={<Winners />} />
+      <Route path="winners" element={<Winners />} />
     </Route>,
   ),
 );

@@ -1,0 +1,31 @@
+@import '../../scss/mixins';
+
+.winners-view-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .winners-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 1000px;
+
+  .pagination-buttons {
+    @include button-style;
+    padding: 0;
+    max-width: 80px;
+    margin-right: 5px;
+    font-size: .7rem;
+    height: 25px;
+    font-weight: bold;
+  }
+
+  .pagination-container {
+    margin-top: 50px;
+  }
+}
+
+}
