@@ -33,8 +33,6 @@ export interface DriveMode {
   reset: boolean;
   broken: boolean;
   finished: boolean;
-  finishTime: number | null;
-  startTime: number | null;
 }
 
 // winner types
