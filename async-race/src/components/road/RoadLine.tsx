@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import './roadLine.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Car, { CarData } from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -12,6 +12,7 @@ import debounce from '../../utils/debounce';
 import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
+import calculateDriveTime from '../../utils/canculateDriveTime';
 
 type Props = {
   car: CarData;
@@ -23,6 +24,7 @@ const RoadLine = ({ car }: Props) => {
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
+  const [travelTime, setTravelTime] = useState(0);
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -51,6 +53,13 @@ const RoadLine = ({ car }: Props) => {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
       cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
+
+      const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
+
+      if (newTravelTime !== travelTime) {
+        setTravelTime(newTravelTime);
+        console.log('Updated travel time:', newTravelTime);
+      }
     }
 
     return () => {
@@ -58,7 +67,7 @@ const RoadLine = ({ car }: Props) => {
         cancelAnimation();
       }
     };
-  }, [driveData, car.id, dispatch]);
+  }, [driveData, car.id, dispatch, travelTime]);
 
   useEffect(() => {
     if (driveData?.reset && carRef.current) {
