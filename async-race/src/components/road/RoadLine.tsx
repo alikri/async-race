@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 import './roadLine.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,9 @@ import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
+import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
+import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
+import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 
 type Props = {
   car: CarData;
@@ -24,7 +28,24 @@ const RoadLine = ({ car }: Props) => {
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
+  const winner = useSelector((state: RootState) => selectWinner(state));
   const [travelTime, setTravelTime] = useState(0);
+
+  useEffect(() => {
+    if (driveData && carRef.current && distanceRef && driveData.drive) {
+      const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
+      const finishTime = calculateDriveTimeInMilliseconds(driveData.driveData.velocity, totalWidth);
+      const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
+      const timer = setTimeout(() => {
+        dispatch(updateWinner({ id: car.id, time: newTravelTime }));
+      }, finishTime);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [driveData?.drive]);
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -58,7 +79,6 @@ const RoadLine = ({ car }: Props) => {
 
       if (newTravelTime !== travelTime) {
         setTravelTime(newTravelTime);
-        console.log('Updated travel time:', newTravelTime);
       }
     }
 
@@ -67,7 +87,8 @@ const RoadLine = ({ car }: Props) => {
         cancelAnimation();
       }
     };
-  }, [driveData, car.id, dispatch, travelTime]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [driveData]);
 
   useEffect(() => {
     if (driveData?.reset && carRef.current) {
