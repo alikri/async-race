@@ -3,7 +3,7 @@ const calculateDriveTime = (velocity: number, totalWidth: number) => {
     throw new Error('Velocity must be greater than zero to calculate time.');
   }
   const timeInSeconds = totalWidth / velocity;
-  return timeInSeconds;
+  return parseFloat(timeInSeconds.toFixed(2));
 };
 
 export default calculateDriveTime;
