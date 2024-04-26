@@ -9,12 +9,10 @@ interface RejectedCarResponse {
 
 interface DriveState {
   driveModes: DriveMode[];
-  winner: number | null;
 }
 
 const initialState: DriveState = {
   driveModes: [],
-  winner: null,
 };
 
 export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
