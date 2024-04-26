@@ -21,20 +21,6 @@ const raceResultsSlice = createSlice({
   name: 'raceResults',
   initialState,
   reducers: {
-    addRaceStatus(state, action: PayloadAction<RaceStatus>) {
-      const existingIndex = state.raceStatuses.findIndex(status => status.id === action.payload.id);
-      if (existingIndex !== -1) {
-        state.raceStatuses[existingIndex] = action.payload;
-      } else {
-        state.raceStatuses.push(action.payload);
-      }
-    },
-    updateRaceTime(state, action: PayloadAction<RaceStatus>) {
-      const index = state.raceStatuses.findIndex(status => status.id === action.payload.id);
-      if (index !== -1) {
-        state.raceStatuses[index].time = action.payload.time;
-      }
-    },
     resetRaceResults(state) {
       state.raceStatuses = [];
       state.winner = null;
@@ -47,7 +33,7 @@ const raceResultsSlice = createSlice({
   },
 });
 
-export const { addRaceStatus, resetRaceResults, updateRaceTime, updateWinner } = raceResultsSlice.actions;
+export const { resetRaceResults, updateWinner } = raceResultsSlice.actions;
 
 export default raceResultsSlice.reducer;
 

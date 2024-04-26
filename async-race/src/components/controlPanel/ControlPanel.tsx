@@ -3,19 +3,31 @@ import './controlPanel.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
-import ButtonBig from '../common/button/buttonBig/ButtonBig';
 import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
+import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 
-const ControlPanel = () => {
+interface Props {
+  isRacing: boolean;
+  setIsRacing: (isRacing: boolean) => void;
+}
+
+const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
+  const winner = useSelector((state: RootState) => selectWinner(state));
+
+  useEffect(() => {
+    if (winner) {
+      console.log(winner, 'Winner inside controlPAnel');
+    }
+  }, [winner]);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -64,6 +76,7 @@ const ControlPanel = () => {
   };
 
   const handleRaceClick = () => {
+    setIsRacing(true);
     cars.forEach(async car => {
       await dispatch(startCarDrive(car.id))
         .unwrap()
@@ -73,6 +86,7 @@ const ControlPanel = () => {
   };
 
   const handleResetClick = () => {
+    setIsRacing(false);
     dispatch(resetRaceResults());
     cars.forEach(car => {
       dispatch(resetCarState(car.id));
@@ -84,12 +98,16 @@ const ControlPanel = () => {
       <div className="form-wrapper">
         <InputText name="carName" value={formData.carName} onChange={handleInputChange} />
         <InputColor name="color" value={formData.color} onChange={handleInputChange} />
-        <ButtonBig title="Create" onClick={handleCreateClick} />
+        <button className="button-big" type="button" onClick={handleCreateClick}>
+          Create
+        </button>
       </div>
       <div className="form-wrapper">
         <InputText name="updateCarName" value={formData.updateCarName} onChange={handleInputChange} />
         <InputColor name="updateColor" value={formData.updateColor} onChange={handleInputChange} />
-        <ButtonBig title="Update" onClick={handleUpdateClick} />
+        <button className="button-big" type="button" onClick={handleUpdateClick}>
+          Update
+        </button>
       </div>
       <div className="race-control-container">
         <div className="title-container">
@@ -99,8 +117,12 @@ const ControlPanel = () => {
           </div>
         </div>
         <div className="race-control-wrapper">
-          <ButtonBig title="Race" onClick={handleRaceClick} />
-          <ButtonBig title="Reset" onClick={handleResetClick} />
+          <button className="button-big" type="button" onClick={handleRaceClick}>
+            Race
+          </button>
+          <button className="button-big" type="button" onClick={handleResetClick}>
+            Reset
+          </button>
         </div>
       </div>
     </>

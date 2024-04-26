@@ -15,20 +15,20 @@ import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
 import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
-import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 
 type Props = {
   car: CarData;
+  isRacing: boolean;
+  setIsRacing: (isRacing: boolean) => void;
 };
 
-const RoadLine = ({ car }: Props) => {
+const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const distanceRef = useRef<HTMLDivElement>(null);
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
-  const winner = useSelector((state: RootState) => selectWinner(state));
   const [travelTime, setTravelTime] = useState(0);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const RoadLine = ({ car }: Props) => {
       const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
       const timer = setTimeout(() => {
         dispatch(updateWinner({ id: car.id, time: newTravelTime }));
+        setIsRacing(false);
       }, finishTime);
 
       return () => {
@@ -70,7 +71,7 @@ const RoadLine = ({ car }: Props) => {
 
   useEffect(() => {
     let cancelAnimation: () => void;
-    if (driveData && carRef.current) {
+    if (driveData && carRef.current && isRacing) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
       cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);

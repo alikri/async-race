@@ -10,7 +10,9 @@ import getCar from '../../api/carAPI/getCar';
 import WinnersTable from '../../components/winnersTable/WinnersTable';
 import { RootState } from '../../redux/store';
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
-import handleWinner from '../../api/winnersAPI/handleWinner';
+import updateWinner from '../../api/winnersAPI/updateWinner';
+import createWinner from '../../api/winnersAPI/createWinner';
+import { getAllCars } from '../../redux/features/car/carSelectors';
 
 const Winners = () => {
   const [winners, setWinners] = useState<WinnerData[]>([]);
@@ -28,21 +30,47 @@ const Winners = () => {
           time: winner.time,
           wins: 1,
         };
-
-        try {
-          const updatedWinnerResponse = await handleWinner(winnerData);
-          setWinners(winners => {
-            const mappedValues = winners.map(curr => {
-              if (curr.id === updatedWinnerResponse.id) {
-                return { ...curr, wins: updatedWinnerResponse.wins, time: updatedWinnerResponse.time };
-              }
-              return curr;
+        console.log(winners);
+        const data = await getWinners();
+        setWinners(data.winners);
+        const isWinnerInList = data.winners.some(currWinner => currWinner.id === winnerData.id);
+        console.log(isWinnerInList, 'IS WINNER IN LIST');
+        if (isWinnerInList) {
+          const previousWinnerData = data.winners.find(data => data.id === winner.id);
+          if (previousWinnerData) {
+            const updateWinnerData = {
+              ...previousWinnerData,
+              wins: previousWinnerData.wins + 1,
+              time: previousWinnerData.time < winner.time ? previousWinnerData.time : winner.time,
+            };
+            console.log(updateWinnerData, 'UPDATE WINNER DATA');
+            const updatedWinnerResponse = await updateWinner(updateWinnerData);
+            setWinners(winners => {
+              const mappedValues = winners.map(curr => {
+                if (curr.id === updatedWinnerResponse.id) {
+                  return { ...curr, wins: updateWinnerData.wins, time: updateWinnerData.time };
+                }
+                return curr;
+              });
+              return mappedValues;
             });
-            return mappedValues;
+          }
+        } else {
+          const updatedWinnerResponse = await createWinner(winnerData);
+          console.log(updatedWinnerResponse, 'updatedWinnerResponse');
+          setWinners(winners => {
+            const existingWinnerIndex = winners.findIndex(curr => curr.id === updatedWinnerResponse.id);
+
+            if (existingWinnerIndex !== -1) {
+              return winners.map(curr => {
+                if (curr.id === updatedWinnerResponse.id) {
+                  return { ...curr, wins: updatedWinnerResponse.wins, time: updatedWinnerResponse.time };
+                }
+                return curr;
+              });
+            }
+            return [...winners, updatedWinnerResponse];
           });
-          console.log(updatedWinnerResponse, 'HANDLE WINNER RESPONSE');
-        } catch (error) {
-          console.error('Error updating winner:', error);
         }
       }
     };
