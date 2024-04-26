@@ -1,16 +1,55 @@
+/* eslint-disable no-console */
+/* eslint-disable consistent-return */
 import './winners.styles.scss';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import getWinners from '../../api/winnersAPI/getWinners';
 import { WinnerData } from '../../types';
 import { CarData } from '../../components/car/Car';
 import getCar from '../../api/carAPI/getCar';
 import WinnersTable from '../../components/winnersTable/WinnersTable';
+import { RootState } from '../../redux/store';
+import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
+import handleWinner from '../../api/winnersAPI/handleWinner';
 
 const Winners = () => {
   const [winners, setWinners] = useState<WinnerData[]>([]);
   const [cars, setCars] = useState<CarData[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const winner = useSelector((state: RootState) => selectWinner(state));
+
+  useEffect(() => {
+    const updateWinnerAsync = async () => {
+      if (winner) {
+        console.log(winner);
+        const winnerData = {
+          id: winner.id,
+          time: winner.time,
+          wins: 1,
+        };
+
+        try {
+          const updatedWinnerResponse = await handleWinner(winnerData);
+          setWinners(winners => {
+            const mappedValues = winners.map(curr => {
+              if (curr.id === updatedWinnerResponse.id) {
+                return { ...curr, wins: updatedWinnerResponse.wins, time: updatedWinnerResponse.time };
+              }
+              return curr;
+            });
+            return mappedValues;
+          });
+          console.log(updatedWinnerResponse, 'HANDLE WINNER RESPONSE');
+        } catch (error) {
+          console.error('Error updating winner:', error);
+        }
+      }
+    };
+
+    updateWinnerAsync();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [winner]);
 
   useEffect(() => {
     const fetchWinners = async () => {

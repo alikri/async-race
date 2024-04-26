@@ -1,7 +1,7 @@
 import makeApiRequest from '../../utils/apiRequest';
 import { WinnerData } from '../../types';
 
-const updateCar = async (winner: WinnerData): Promise<WinnerData> => {
+const updateWinner = async (winner: WinnerData): Promise<WinnerData> => {
   const { id, wins, time } = winner;
   const endpoint = `/winners/${id}`;
   const method = 'PUT';
@@ -28,4 +28,4 @@ const updateCar = async (winner: WinnerData): Promise<WinnerData> => {
   }
 };
 
-export default updateCar;
+export default updateWinner;
