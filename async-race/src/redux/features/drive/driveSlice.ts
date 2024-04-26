@@ -18,7 +18,6 @@ const initialState: DriveState = {
 export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
   try {
     const data = await startCarEngine(id);
-    const startTime = Date.now();
     return {
       id,
       drive: true,
@@ -46,7 +45,6 @@ export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (
 export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
   try {
     const data = await stopCarEngine(id);
-    const finishTime = Date.now();
     return {
       id,
       drive: false,
