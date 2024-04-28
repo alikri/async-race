@@ -1,11 +1,13 @@
 import './winners.styles.scss';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import WinnersTable from '../../components/winnersTable/WinnersTable';
-import { RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { selectCars, selectWinners } from '../../redux/features/winners/winnersSelector';
+import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 
 const Winners = () => {
+  const dispatch: AppDispatch = useDispatch();
   const winnersState = useSelector((state: RootState) => selectWinners(state));
   const carsState = useSelector((state: RootState) => selectCars(state));
   const [page, setPage] = useState<number>(1);
@@ -14,7 +16,8 @@ const Winners = () => {
   useEffect(() => {
     const totalCount = Math.ceil(winnersState.totalCount / 10);
     setTotalPages(totalCount);
-  }, [winnersState]);
+    dispatch(resetRaceResults());
+  }, [dispatch, winnersState]);
 
   return (
     <div className="winners-view-wrapper">

@@ -5,13 +5,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
-import { AppDispatch, RootState } from '../../redux/store';
+import { AppDispatch } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
-import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
-import { saveWinner } from '../../redux/features/winners/winnersSlice';
 
 interface Props {
   isRacing: boolean;
@@ -22,20 +20,6 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
-  const raceWinner = useSelector((state: RootState) => selectWinner(state));
-
-  useEffect(() => {
-    if (raceWinner) {
-      console.log(raceWinner, 'Winner inside controlPanel');
-      const winnerData = {
-        id: raceWinner.id,
-        time: raceWinner.time,
-        wins: 1,
-      };
-
-      dispatch(saveWinner(winnerData));
-    }
-  }, [dispatch, raceWinner]);
 
   const [formData, setFormData] = useState({
     carName: '',

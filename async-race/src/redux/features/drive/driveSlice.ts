@@ -20,7 +20,7 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
     const data = await startCarEngine(id);
     return {
       id,
-      drive: true,
+      drive: false,
       driveData: data,
       reset: false,
       broken: false,
@@ -35,7 +35,11 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
 export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (id: number, { rejectWithValue }) => {
   try {
     await driveCarEngine(id);
-    return null;
+    return {
+      id,
+      drive: true,
+      finished: false,
+    };
   } catch (error) {
     console.error('Error starting car engine:', error);
     return rejectWithValue({ id, drive: false });
@@ -95,6 +99,12 @@ const driveSlice = createSlice({
             broken: false,
             finished: false,
           };
+        }
+      })
+      .addCase(switchToDriveMode.fulfilled, (state, action) => {
+        const existingIndex = state.driveModes.findIndex(mode => mode.id === action.payload.id);
+        if (existingIndex !== -1) {
+          state.driveModes[existingIndex].drive = true;
         }
       })
       .addCase(switchToDriveMode.rejected, (state, action) => {

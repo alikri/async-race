@@ -16,6 +16,7 @@ import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
 import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
+import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 
 type Props = {
   car: CarData;
@@ -30,23 +31,37 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
   const [travelTime, setTravelTime] = useState(0);
+  const timerRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+  const raceWinner = useSelector((state: RootState) => selectWinner(state));
 
   useEffect(() => {
     if (driveData && carRef.current && distanceRef && driveData.drive) {
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
       const finishTime = calculateDriveTimeInMilliseconds(driveData.driveData.velocity, totalWidth);
       const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
-      const timer = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         dispatch(updateWinner({ id: car.id, time: newTravelTime }));
         setIsRacing(false);
       }, finishTime);
 
       return () => {
-        clearTimeout(timer);
+        if (timerRef.current) {
+          //  console.log(car.id, 'timeout cleared on unmount');
+          clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [driveData?.drive]);
+
+  useEffect(() => {
+    if (timerRef.current && raceWinner) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [raceWinner]);
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -85,6 +100,8 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
 
     return () => {
       if (cancelAnimation) {
+        console.log('animation cnaceled!', car.id);
+        console.log(driveData?.broken, 'is broken');
         cancelAnimation();
       }
     };
@@ -106,6 +123,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   };
 
   const handleStart = async () => {
+    setIsRacing(true);
     await dispatch(startCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(switchToDriveMode(car.id)))
@@ -113,6 +131,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   };
 
   const handleStop = async () => {
+    setIsRacing(false);
     await dispatch(stopCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(resetCarState(car.id)))
