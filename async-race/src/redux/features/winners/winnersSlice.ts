@@ -3,6 +3,7 @@ import createWinner from '../../../api/winnersAPI/createWinner';
 import getWinners from '../../../api/winnersAPI/getWinners';
 import { WinnerData } from '../../../types';
 import updateWinner from '../../../api/winnersAPI/updateWinner';
+import { RootState } from '../../store';
 
 interface WinnersState {
   winners: WinnerData[];
@@ -20,11 +21,13 @@ export const fetchWinners = createAsyncThunk('winners/fetchWinners', async () =>
 });
 
 export const saveWinner = createAsyncThunk('winners/saveWinner', async (winnerData: WinnerData, { getState }) => {
-  const data = await getWinners();
-  const isWinnerInList = data.winners.some(currWinner => currWinner.id === winnerData.id);
+  const state = getState() as RootState; // Cast getState() to RootState
+  const data = state.winners.winners;
+
+  const isWinnerInList = data.some((currWinner: WinnerData) => currWinner.id === winnerData.id);
 
   if (isWinnerInList) {
-    const previousWinnerData = data.winners.find(data => data.id === winnerData.id);
+    const previousWinnerData = data.find((data: WinnerData) => data.id === winnerData.id);
     if (previousWinnerData) {
       const updateWinnerData = {
         ...previousWinnerData,
