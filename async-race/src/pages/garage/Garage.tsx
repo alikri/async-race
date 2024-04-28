@@ -40,7 +40,6 @@ const Garage = () => {
   return (
     <div className="garage-container">
       <ControlPanel setIsRacing={setIsRacing} isRacing={isRacing} />
-      <div className="road-wrapper">{displayCars && displayCars}</div>
       <div className="pagination-container">
         <button className="pagination-buttons" type="button" disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
@@ -54,6 +53,8 @@ const Garage = () => {
           Next
         </button>
       </div>
+
+      <div className="road-wrapper">{displayCars && displayCars}</div>
     </div>
   );
 };

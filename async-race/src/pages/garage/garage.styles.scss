@@ -5,3 +5,18 @@
   border-radius: 5px;
   @include box-shadow();
 }
+  .pagination-container {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+
+    .pagination-buttons {
+      @include button-style;
+      padding: 0;
+      max-width: 80px;
+      margin-right: 5px;
+      font-size: .7rem;
+      height: 25px;
+      font-weight: bold;
+    }
+  }
