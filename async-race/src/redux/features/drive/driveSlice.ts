@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
 import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/carAPI/handleDrive';
 
@@ -14,6 +14,8 @@ interface DriveState {
 const initialState: DriveState = {
   driveModes: [],
 };
+
+export const setImmediateDriveMode = createAction<{ id: number; drive: boolean }>('drive/setImmediateDriveMode');
 
 export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
   try {
@@ -32,19 +34,20 @@ export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: nu
   }
 });
 
-export const switchToDriveMode = createAsyncThunk('drive/switchToDrive', async (id: number, { rejectWithValue }) => {
-  try {
-    await driveCarEngine(id);
-    return {
-      id,
-      drive: true,
-      finished: false,
-    };
-  } catch (error) {
-    console.error('Error starting car engine:', error);
-    return rejectWithValue({ id, drive: false });
-  }
-});
+export const switchToDriveMode = createAsyncThunk(
+  'drive/switchToDrive',
+  async (id: number, { dispatch, rejectWithValue }) => {
+    dispatch(setImmediateDriveMode({ id, drive: true }));
+
+    try {
+      await driveCarEngine(id);
+      return null;
+    } catch (error) {
+      console.error('Error starting car engine:', error);
+      return rejectWithValue({ id, drive: false });
+    }
+  },
+);
 
 export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: number, { rejectWithValue }) => {
   try {
@@ -64,7 +67,7 @@ export const stopCarDrive = createAsyncThunk('drive/stopEngine', async (id: numb
 });
 
 export const resetCarState = createAsyncThunk('drive/resetCar', async (id: number) => {
-  return { id, reset: true };
+  return { id, reset: true, drive: false, broken: false, finished: false };
 });
 
 const driveSlice = createSlice({
@@ -89,6 +92,13 @@ const driveSlice = createSlice({
           state.driveModes.push(action.payload);
         }
       })
+      .addCase(setImmediateDriveMode, (state, action) => {
+        const { id, drive } = action.payload;
+        const existingIndex = state.driveModes.findIndex(mode => mode.id === id);
+        if (existingIndex !== -1) {
+          state.driveModes[existingIndex].drive = drive;
+        }
+      })
       .addCase(resetCarState.fulfilled, (state, action) => {
         const existingIndex = state.driveModes.findIndex(mode => mode.id === action.payload.id);
         if (existingIndex !== -1) {
@@ -99,12 +109,6 @@ const driveSlice = createSlice({
             broken: false,
             finished: false,
           };
-        }
-      })
-      .addCase(switchToDriveMode.fulfilled, (state, action) => {
-        const existingIndex = state.driveModes.findIndex(mode => mode.id === action.payload.id);
-        if (existingIndex !== -1) {
-          state.driveModes[existingIndex].drive = true;
         }
       })
       .addCase(switchToDriveMode.rejected, (state, action) => {

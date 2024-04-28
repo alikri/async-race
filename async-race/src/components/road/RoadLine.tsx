@@ -41,12 +41,10 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
       const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
       timerRef.current = setTimeout(() => {
         dispatch(updateWinner({ id: car.id, time: newTravelTime }));
-        setIsRacing(false);
       }, finishTime);
 
       return () => {
         if (timerRef.current) {
-          //  console.log(car.id, 'timeout cleared on unmount');
           clearTimeout(timerRef.current);
           timerRef.current = null;
         }
@@ -86,7 +84,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
 
   useEffect(() => {
     let cancelAnimation: () => void;
-    if (driveData && carRef.current && isRacing) {
+    if (driveData && carRef.current && isRacing && driveData.drive) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
       cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
@@ -106,7 +104,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [driveData]);
+  }, [driveData?.drive]);
 
   useEffect(() => {
     if (driveData?.reset && carRef.current) {

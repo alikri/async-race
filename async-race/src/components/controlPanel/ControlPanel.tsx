@@ -109,10 +109,10 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
           </div>
         </div>
         <div className="race-control-wrapper">
-          <button className="button-big" type="button" onClick={handleRaceClick}>
+          <button disabled={isRacing} className="button-big" type="button" onClick={handleRaceClick}>
             Race
           </button>
-          <button className="button-big" type="button" onClick={handleResetClick}>
+          <button disabled={!isRacing} className="button-big" type="button" onClick={handleResetClick}>
             Reset
           </button>
         </div>
