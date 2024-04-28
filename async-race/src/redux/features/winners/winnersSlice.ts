@@ -4,6 +4,7 @@ import getWinners from '../../../api/winnersAPI/getWinners';
 import { WinnerData } from '../../../types';
 import updateWinner from '../../../api/winnersAPI/updateWinner';
 import { RootState } from '../../store';
+import deleteWinner from '../../../api/winnersAPI/deleteWinner';
 
 interface WinnersState {
   winners: WinnerData[];
@@ -18,6 +19,16 @@ const initialState: WinnersState = {
 export const fetchWinners = createAsyncThunk('winners/fetchWinners', async () => {
   const response = await getWinners();
   return response;
+});
+
+export const removeWinner = createAsyncThunk('winners/removeWinner', async (id: number, { rejectWithValue }) => {
+  try {
+    await deleteWinner(id);
+    return id;
+  } catch (error) {
+    console.error('Error deleting winner:', error);
+    return rejectWithValue(id);
+  }
 });
 
 export const saveWinner = createAsyncThunk('winners/saveWinner', async (winnerData: WinnerData, { getState }) => {
@@ -64,6 +75,13 @@ const winnersSlice = createSlice({
         } else {
           console.error('Failed to save winner due to invalid data');
         }
+      })
+      .addCase(removeWinner.fulfilled, (state, action) => {
+        state.winners = state.winners.filter(winner => winner.id !== action.payload);
+        state.totalCount -= 1;
+      })
+      .addCase(removeWinner.rejected, (state, action) => {
+        console.error('Failed to delete winner with ID:', action.payload);
       });
   },
 });

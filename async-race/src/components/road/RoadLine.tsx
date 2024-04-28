@@ -17,6 +17,7 @@ import calculateDriveTime from '../../utils/canculateDriveTime';
 import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
+import { removeWinner } from '../../redux/features/winners/winnersSlice';
 
 type Props = {
   car: CarData;
@@ -118,6 +119,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
 
   const handleDeleteCar = () => {
     dispatch(deleteExistingCar(car.id));
+    dispatch(removeWinner(car.id));
   };
 
   const handleStart = async () => {
