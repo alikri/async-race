@@ -21,7 +21,7 @@ export const fetchWinners = createAsyncThunk('winners/fetchWinners', async () =>
 });
 
 export const saveWinner = createAsyncThunk('winners/saveWinner', async (winnerData: WinnerData, { getState }) => {
-  const state = getState() as RootState; // Cast getState() to RootState
+  const state = getState() as RootState;
   const data = state.winners.winners;
 
   const isWinnerInList = data.some((currWinner: WinnerData) => currWinner.id === winnerData.id);
