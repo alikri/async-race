@@ -1,0 +1,71 @@
+@import '../../../scss//variables';
+
+.modal-window-wrapper {
+  display: flex;
+  justify-content: center;
+
+  .modal-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    background-color: rgba($primary-color, 0.8);
+    color: black; 
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: auto;
+    max-width: 300px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: modalFadeIn 0.3s;
+    width: 100%;
+
+    .close-button {
+      position: absolute;
+      width: 10px; 
+      height: 10px;
+      top: 20px;
+      right: 25px;
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      display: flex;       
+      align-items: center; 
+      justify-content: center; 
+
+      .close-icon {
+        width: 40px;
+        height: 40px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          width: 35px; 
+          height: 35px;
+        }
+      }
+    }
+    h1 {
+      font-size: 3rem;
+      margin-block: 5px;
+    }
+    p {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

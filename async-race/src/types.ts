@@ -41,3 +41,7 @@ export interface WinnerData {
   wins: number;
   time: number;
 }
+
+export interface WinnerDataForModal extends WinnerData {
+  name: string;
+}
