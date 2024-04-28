@@ -7,7 +7,7 @@ import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
 import { AppDispatch } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
-import { getAllCars } from '../../redux/features/car/carSelectors';
+import { getAllCars, getTotalCount } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 
@@ -20,6 +20,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
+  const totalCarsCount = useSelector(getTotalCount);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -105,7 +106,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
         <div className="title-container">
           <h2>Garage</h2>
           <div className="garage-count-wrapper">
-            <h3>50</h3>
+            <h3>{totalCarsCount}</h3>
           </div>
         </div>
         <div className="race-control-wrapper">
