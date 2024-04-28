@@ -5,6 +5,7 @@ import loadReducer from './features/load/loadSlice';
 import selectedCarReducer from './features/selectedCar/selectedCarSlice';
 import driveReducer from './features/drive/driveSlice';
 import raceResultsReducer from './features/raceResults/raceResultsSlice';
+import winnersReducer from './features/winners/winnersSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     selectedCar: selectedCarReducer,
     drive: driveReducer,
     raceResults: raceResultsReducer,
+    winners: winnersReducer,
   },
 });
 
