@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { CARS_PER_GARAGE_PAGE } from '../../../constants';
 
 const initialState = {
   currentGaragePage: 1,
   totalGaragePages: 1,
-  itemsPerGaragePage: 7,
+  itemsPerGaragePage: CARS_PER_GARAGE_PAGE,
   totalGarageItems: 0,
 };
 

@@ -1,16 +1,11 @@
 import './winnersTable.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { WinnerData } from '../../types';
+import { SortField, SortOrder, WinnerData } from '../../types';
 import WinnerRow from './winnersRow/WinnerRow';
 import arrowDown from '../images/icons/arrow-up.svg';
 import arrowUp from '../images/icons/arrow-down.svg';
 import { AppDispatch, RootState } from '../../redux/store';
-import {
-  SortField,
-  SortOrder,
-  setSortField,
-  setSortOrder,
-} from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
+import { setSortField, setSortOrder } from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
 import { fetchWinners } from '../../redux/features/winners/winnersSlice';
 
 interface WinnersTableProps {
@@ -23,9 +18,9 @@ const WinnersTable = ({ winners }: WinnersTableProps) => {
     (state: RootState) => state.winnerSortingPaginationSlice,
   );
   const handleSort = (field: SortField) => () => {
-    let newOrder: SortOrder = 'ASC';
+    let newOrder = SortOrder.ASC;
     if (sortField === field) {
-      newOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+      newOrder = sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     }
     dispatch(setSortField(field));
     dispatch(setSortOrder(newOrder));
@@ -34,11 +29,11 @@ const WinnersTable = ({ winners }: WinnersTableProps) => {
   };
 
   const headers: { label: string; field?: SortField }[] = [
-    { label: 'ID', field: 'id' },
+    { label: 'ID', field: SortField.ID },
     { label: 'Car' },
     { label: 'Name' },
-    { label: 'Wins', field: 'wins' },
-    { label: 'Best Time (seconds)', field: 'time' },
+    { label: 'Wins', field: SortField.WINS },
+    { label: 'Best Time (seconds)', field: SortField.TIME },
   ];
 
   return (

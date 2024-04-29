@@ -60,3 +60,15 @@ export interface WinnerDataForModal {
   time: number;
   name: string;
 }
+
+// enums
+export enum SortField {
+  ID = 'id',
+  TIME = 'time',
+  WINS = 'wins',
+}
+
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}

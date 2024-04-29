@@ -1,4 +1,3 @@
-import './car.styles.scss';
 import CarIcon from './CarIcon';
 
 type Props = {

@@ -1,3 +1,4 @@
+import { CARS_PER_GARAGE_PAGE } from '../../constants';
 import { CarData } from '../../types';
 import makeApiRequest from '../../utils/apiRequest';
 
@@ -6,7 +7,7 @@ export interface FetchCarsResponse {
   totalCount: number;
 }
 
-const getCars = async (page: number = 1, limit: number = 7): Promise<FetchCarsResponse> => {
+const getCars = async (page: number = 1, limit: number = CARS_PER_GARAGE_PAGE): Promise<FetchCarsResponse> => {
   const params = new URLSearchParams();
 
   if (page !== undefined) {

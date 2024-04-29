@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export type SortField = 'id' | 'time' | 'wins';
-export type SortOrder = 'ASC' | 'DESC';
+import { SortField, SortOrder } from '../../../types';
+import { CARS_PER_WINNER_PAGE } from '../../../constants';
 
 interface PaginationState {
   currentWinnersPage: number;
@@ -15,10 +14,10 @@ interface PaginationState {
 const initialState: PaginationState = {
   currentWinnersPage: 1,
   totalWinnersPages: 1,
-  itemsPerWinnersPage: 10,
+  itemsPerWinnersPage: CARS_PER_WINNER_PAGE,
   totalWinnersItems: 0,
-  sortField: 'id',
-  sortOrder: 'ASC',
+  sortField: SortField.ID,
+  sortOrder: SortOrder.ASC,
 };
 
 export const winnerSortingPaginationSlice = createSlice({

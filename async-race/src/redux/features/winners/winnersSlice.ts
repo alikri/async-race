@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import createWinner from '../../../api/winnersAPI/createWinner';
 import getWinners, { FetchWinnersResponse } from '../../../api/winnersAPI/getWinners';
-import { WinnerData, WinnerRequestData } from '../../../types';
+import { SortField, SortOrder, WinnerData, WinnerRequestData } from '../../../types';
 import updateWinner from '../../../api/winnersAPI/updateWinner';
 import { RootState } from '../../store';
 import deleteWinner from '../../../api/winnersAPI/deleteWinner';
@@ -14,8 +14,8 @@ interface WinnersState {
 interface FetchWinnersParams {
   page: number;
   limit: number;
-  sort: 'id' | 'wins' | 'time';
-  order: 'ASC' | 'DESC';
+  sort: SortField;
+  order: SortOrder;
 }
 
 const initialState: WinnersState = {
@@ -32,14 +32,14 @@ export const fetchWinners = createAsyncThunk<FetchWinnersResponse, FetchWinnersP
         response.winners.map(async winner => {
           try {
             const car = await getCar(winner.id);
-            return { ...winner, carColor: car.color, name: car.name }; // Merge car color into winner data
+            return { ...winner, carColor: car.color, name: car.name };
           } catch (error) {
             console.error(`Failed to fetch car for winner with ID ${winner.id}:`, error);
-            return winner; // Return the winner without car color if fetching car fails
+            return winner;
           }
         }),
       );
-      // Return both winners and totalCount
+
       return { winners: winnersWithCarColors, totalCount: response.totalCount };
     } catch (error) {
       console.error('Failed to fetch winners:', error);

@@ -1,4 +1,5 @@
-import { WinnerData } from '../../types';
+import { CARS_PER_WINNER_PAGE } from '../../constants';
+import { SortField, SortOrder, WinnerData } from '../../types';
 import makeApiRequest from '../../utils/apiRequest';
 
 export interface FetchWinnersResponse {
@@ -8,14 +9,14 @@ export interface FetchWinnersResponse {
 
 const getWinners = async ({
   page = 1,
-  limit = 10,
-  sort = 'id',
-  order = 'ASC',
+  limit = CARS_PER_WINNER_PAGE,
+  sort = SortField.ID,
+  order = SortOrder.ASC,
 }: {
   page?: number;
   limit?: number;
-  sort?: 'id' | 'wins' | 'time';
-  order?: 'ASC' | 'DESC';
+  sort?: SortField;
+  order?: SortOrder;
 } = {}): Promise<FetchWinnersResponse> => {
   const params = new URLSearchParams();
 
