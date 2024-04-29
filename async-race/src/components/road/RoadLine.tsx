@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
 import './roadLine.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import Car, { CarData } from '../car/Car';
+import Car from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carAPI';
@@ -19,6 +20,7 @@ import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice'
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
 import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
+import { CarData } from '../../types';
 
 type Props = {
   car: CarData;
@@ -53,7 +55,6 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
         }
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [driveData?.drive]);
 
   useEffect(() => {
@@ -61,7 +62,6 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [raceWinner]);
 
   const updateWidth = () => {
@@ -104,7 +104,6 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
         cancelAnimation();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [driveData?.drive]);
 
   useEffect(() => {
@@ -162,7 +161,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
       </div>
       <div className="car-name-container">{car.name}</div>
       <div className="car-container" ref={carRef}>
-        <Car car={car} />
+        <Car carColor={car.color} />
       </div>
       <div className="race-road" ref={distanceRef} />
       <div className="finish" />

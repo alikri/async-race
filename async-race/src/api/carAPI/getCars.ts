@@ -1,4 +1,4 @@
-import { CarData } from '../../components/car/Car';
+import { CarData } from '../../types';
 import makeApiRequest from '../../utils/apiRequest';
 
 export interface FetchCarsResponse {

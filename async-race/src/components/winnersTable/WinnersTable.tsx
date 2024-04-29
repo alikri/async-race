@@ -1,7 +1,6 @@
 import './winnersTable.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { WinnerData } from '../../types';
-import { CarData } from '../car/Car';
 import WinnerRow from './winnersRow/WinnerRow';
 import arrowDown from '../images/icons/arrow-up.svg';
 import arrowUp from '../images/icons/arrow-down.svg';
@@ -16,10 +15,9 @@ import { fetchWinners } from '../../redux/features/winners/winnersSlice';
 
 interface WinnersTableProps {
   winners: WinnerData[];
-  cars: CarData[];
 }
 
-const WinnersTable = ({ winners, cars }: WinnersTableProps) => {
+const WinnersTable = ({ winners }: WinnersTableProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { sortOrder, sortField, currentWinnersPage, itemsPerWinnersPage } = useSelector(
     (state: RootState) => state.winnerSortingPaginationSlice,
@@ -63,7 +61,7 @@ const WinnersTable = ({ winners, cars }: WinnersTableProps) => {
       </thead>
       <tbody>
         {winners.map(winner => (
-          <WinnerRow key={winner.id} winner={winner} car={cars.find(car => car.id === winner.id)} />
+          <WinnerRow key={winner.id} winner={winner} />
         ))}
       </tbody>
     </table>

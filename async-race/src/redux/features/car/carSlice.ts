@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CarData } from '../../../components/car/Car';
 import { addCar, createMultipleCars, deleteExistingCar, fetchAndUpdateCars, updateExistingCar } from './carAPI';
+import { CarData } from '../../../types';
 
 interface CarState {
   cars: CarData[];

@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
-import { CarData } from './components/car/Car';
+
+export interface CarData {
+  name: string;
+  color: string;
+  id: number;
+}
 
 export interface CarState {
   cars: CarData[];
@@ -36,12 +41,22 @@ export interface DriveMode {
 }
 
 // winner types
-export interface WinnerData {
+export interface WinnerRequestData {
   id: number;
   wins: number;
   time: number;
 }
+export interface WinnerData {
+  id: number;
+  wins: number;
+  time: number;
+  carColor: string;
+  name: string;
+}
 
-export interface WinnerDataForModal extends WinnerData {
+export interface WinnerDataForModal {
+  id: number;
+  wins: number;
+  time: number;
   name: string;
 }

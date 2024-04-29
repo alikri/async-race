@@ -1,20 +1,14 @@
 import './car.styles.scss';
 import CarIcon from './CarIcon';
 
-export interface CarData {
-  name: string;
-  color: string;
-  id: number;
-}
-
 type Props = {
-  car: CarData;
+  carColor: string;
 };
 
-const Car = ({ car }: Props) => {
+const Car = ({ carColor }: Props) => {
   return (
     <div className="car-wrapper">
-      <CarIcon color={car.color} />
+      <CarIcon color={carColor} />
     </div>
   );
 };

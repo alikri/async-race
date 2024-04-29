@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CarData } from '../../../components/car/Car';
+import { CarData } from '../../../types';
 
 interface SelectedCarState {
   selectedCar: CarData | null;

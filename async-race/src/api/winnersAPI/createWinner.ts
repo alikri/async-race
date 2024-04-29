@@ -1,7 +1,7 @@
 import makeApiRequest from '../../utils/apiRequest';
-import { WinnerData } from '../../types';
+import { WinnerData, WinnerRequestData } from '../../types';
 
-const createWinner = async (winner: WinnerData): Promise<WinnerData> => {
+const createWinner = async (winner: WinnerRequestData): Promise<WinnerData> => {
   const endpoint = '/winners';
   const method = 'POST';
   const headers = {

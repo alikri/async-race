@@ -1,24 +1,23 @@
 import '../winnersTable.scss';
 import { WinnerData } from '../../../types';
-import Car, { CarData } from '../../car/Car';
+import Car from '../../car/Car';
 
 interface WinnerRowProps {
   winner: WinnerData;
-  car: CarData | undefined;
 }
 
-const WinnerRow = ({ winner, car }: WinnerRowProps) => {
+const WinnerRow = ({ winner }: WinnerRowProps) => {
   return (
     <tr className="table-row">
       <td>{winner.id}</td>
       <td>
-        {car && (
+        {winner && (
           <div className="winner-car-container">
-            <Car car={car} />
+            <Car carColor={winner.carColor} />
           </div>
         )}
       </td>
-      <td>{car?.name}</td>
+      <td>{winner.name}</td>
       <td>{winner.wins}</td>
       <td>{winner.time}</td>
     </tr>

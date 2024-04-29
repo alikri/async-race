@@ -1,6 +1,5 @@
 import makeApiRequest from '../../utils/apiRequest';
-import { CarData } from '../../components/car/Car';
-import { CreateCarData } from '../../types';
+import { CarData, CreateCarData } from '../../types';
 
 const createCar = async (newCarData: CreateCarData): Promise<CarData> => {
   const endpoint = '/garage';
