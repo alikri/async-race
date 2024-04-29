@@ -1,8 +1,9 @@
 @import '../../scss/mixins';
 
 .road-wrapper {
-  min-height: 800px;
   border-radius: 5px;
+  max-height: 560px;
+  overflow-y: hidden;
   @include box-shadow();
 }
   .pagination-container {

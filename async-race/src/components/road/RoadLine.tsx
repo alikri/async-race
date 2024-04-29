@@ -18,6 +18,7 @@ import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMillise
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
+import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
 
 type Props = {
   car: CarData;
@@ -34,6 +35,7 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   const [travelTime, setTravelTime] = useState(0);
   const timerRef = useRef<null | ReturnType<typeof setTimeout>>(null);
   const raceWinner = useSelector((state: RootState) => selectWinner(state));
+  const winnerFromWinnerList = useSelector((state: RootState) => selectWinnerById(state, car.id));
 
   useEffect(() => {
     if (driveData && carRef.current && distanceRef && driveData.drive) {
@@ -119,7 +121,9 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
 
   const handleDeleteCar = () => {
     dispatch(deleteExistingCar(car.id));
-    dispatch(removeWinner(car.id));
+    if (winnerFromWinnerList) {
+      dispatch(removeWinner(car.id));
+    }
   };
 
   const handleStart = async () => {

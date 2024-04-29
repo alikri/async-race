@@ -26,7 +26,7 @@ export const removeWinner = createAsyncThunk('winners/removeWinner', async (id: 
     await deleteWinner(id);
     return id;
   } catch (error) {
-    console.error('Error deleting winner:', error);
+    console.error('Winner with this id does not exist', error);
     return rejectWithValue(id);
   }
 });

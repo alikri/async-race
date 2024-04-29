@@ -5,32 +5,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import RoadLine from '../../components/road/RoadLine';
 import { getError, getLoading } from '../../redux/features/load/loadSelectors';
-import { getAllCars, getTotalCount } from '../../redux/features/car/carSelectors';
-import { AppDispatch } from '../../redux/store';
+import { getAllCars } from '../../redux/features/car/carSelectors';
+import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carAPI';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
+import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();
   const allCars = useSelector(getAllCars);
   const isLoading = useSelector(getLoading);
-  const totalCarsCount = useSelector(getTotalCount);
   const error = useSelector(getError);
   const [isRacing, setIsRacing] = useState(false);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const { currentPage, itemsPerPage, totalPages } = useSelector((state: RootState) => state.paginationGarage);
 
   useEffect(() => {
-    const totalPageCount = Math.ceil(totalCarsCount / 10);
-    setTotalPages(totalPageCount);
     dispatch(resetRaceResults());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchAndUpdateCars());
+    dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
     dispatch(resetRaceResults());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+  }, [currentPage, dispatch, itemsPerPage]);
+
+  const handleNextPageClick = () => {
+    dispatch(setPage(currentPage + 1));
+    dispatch(fetchAndUpdateCars({ page: currentPage + 1, limit: itemsPerPage }));
+  };
+
+  const handlePreviousPageClick = () => {
+    dispatch(setPage(currentPage - 1));
+    dispatch(fetchAndUpdateCars({ page: currentPage - 1, limit: itemsPerPage }));
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -41,14 +53,19 @@ const Garage = () => {
     <div className="garage-container">
       <ControlPanel setIsRacing={setIsRacing} isRacing={isRacing} />
       <div className="pagination-container">
-        <button className="pagination-buttons" type="button" disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <button
+          className="pagination-buttons"
+          type="button"
+          disabled={currentPage === 1}
+          onClick={handlePreviousPageClick}
+        >
           Previous
         </button>
         <button
           className="pagination-buttons"
           type="button"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
+          disabled={currentPage === totalPages}
+          onClick={handleNextPageClick}
         >
           Next
         </button>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import './controlPanel.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,11 +6,12 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import InputText from '../common/input/inputText/inputText';
 import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
-import { getAllCars, getTotalCount } from '../../redux/features/car/carSelectors';
+import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
+import { setTotalItems } from '../../redux/features/paginationWinners/paginationWinnerSlice';
 
 interface Props {
   isRacing: boolean;
@@ -20,7 +22,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
-  const totalCarsCount = useSelector(getTotalCount);
+  const totalCarsCount = useSelector((state: RootState) => state.cars.totalCount);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -28,6 +30,10 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
     updateCarName: '',
     updateColor: '',
   });
+
+  useEffect(() => {
+    dispatch(setTotalItems(totalCarsCount));
+  }, [totalCarsCount]);
 
   useEffect(() => {
     if (selectedCar !== null) {

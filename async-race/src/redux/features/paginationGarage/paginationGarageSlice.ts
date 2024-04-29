@@ -14,9 +14,6 @@ export const paginationGarageSlice = createSlice({
     setPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    setTotalPages: (state, action) => {
-      state.totalPages = action.payload;
-    },
     setTotalItems: (state, action) => {
       state.totalItems = action.payload;
       state.totalPages = Math.ceil(action.payload / state.itemsPerPage);
@@ -24,5 +21,5 @@ export const paginationGarageSlice = createSlice({
   },
 });
 
-export const { setPage, setTotalPages, setTotalItems } = paginationGarageSlice.actions;
+export const { setPage, setTotalItems } = paginationGarageSlice.actions;
 export default paginationGarageSlice.reducer;

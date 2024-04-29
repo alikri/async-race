@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import './layout.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,14 +10,16 @@ import { fetchWinners, saveWinner } from '../../redux/features/winners/winnersSl
 import { fetchAndUpdateCars } from '../../redux/features/car/carAPI';
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 import WinnerAnnouncement from '../winnerAnouncment/WinnerAnouncement';
-import { WinnerData, WinnerDataForModal } from '../../types';
-import { getCarById, getCarFromState } from '../../redux/features/car/carSelectors';
+import { WinnerDataForModal } from '../../types';
+import { getCarFromState } from '../../redux/features/car/carSelectors';
+import { setPage, setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
 
 const Layout = () => {
   const dispatch: AppDispatch = useDispatch();
   const raceWinner = useSelector((state: RootState) => selectWinner(state));
-  const carName = useSelector((state: RootState) => (raceWinner ? getCarById(state, raceWinner.id) : null));
   const [modalWinner, setModalWinner] = useState<null | WinnerDataForModal>();
+  const { currentPage, itemsPerPage, totalPages } = useSelector((state: RootState) => state.paginationGarage);
+  const garageCarCount = useSelector((state: RootState) => state.cars.totalCount);
 
   useEffect(() => {
     if (raceWinner) {
@@ -44,8 +47,18 @@ const Layout = () => {
 
   useEffect(() => {
     dispatch(fetchWinners());
-    dispatch(fetchAndUpdateCars());
+    dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setTotalItems(garageCarCount));
+  }, [garageCarCount]);
+
+  useEffect(() => {
+    if (currentPage > 1 && currentPage > totalPages) {
+      dispatch(setPage(currentPage - 1));
+    }
+  }, [totalPages]);
 
   return (
     <section className="main-wrapper">

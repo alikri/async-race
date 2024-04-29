@@ -6,17 +6,20 @@ import updateCar from '../../../api/carAPI/updateCar';
 import { RootState } from '../../store';
 import deleteCar from '../../../api/carAPI/deleteCar';
 
-export const fetchAndUpdateCars = createAsyncThunk('cars/fetchAndUpdate', async (_, { rejectWithValue }) => {
-  try {
-    const response = await getCars();
-    return response;
-  } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue(error.message);
+export const fetchAndUpdateCars = createAsyncThunk(
+  'cars/fetchAndUpdate',
+  async (params: { page: number; limit: number }, { rejectWithValue }) => {
+    try {
+      const response = await getCars(params.page, params.limit);
+      return response;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Failed to fetch cars');
     }
-    return rejectWithValue('Failed to fetch cars');
-  }
-});
+  },
+);
 
 export const addCar = createAsyncThunk('cars/addCar', async (newCarData: CreateCarData, { rejectWithValue }) => {
   try {
