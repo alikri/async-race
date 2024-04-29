@@ -18,10 +18,22 @@
   th {
     color: white;
     font-weight: bold;
-    cursor: pointer;
-      &:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.75);
-        transform: translateY(-2px);
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      .arrow-wrapper  {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+
+        &:hover {
+          transform: translateY(-2px);
+      }
     }
   }
 
@@ -31,4 +43,5 @@
     left: 10px;
     z-index: 2;
   }
+
 }
