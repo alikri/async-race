@@ -66,7 +66,6 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
 
       cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive, () => {
-        console.log('Animation completed!');
         const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
         dispatch(updateWinner({ id: car.id, time: newTravelTime }));
       });
