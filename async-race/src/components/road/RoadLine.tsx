@@ -101,8 +101,6 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
 
     return () => {
       if (cancelAnimation) {
-        console.log('animation cnaceled!', car.id);
-        console.log(driveData?.broken, 'is broken');
         cancelAnimation();
       }
     };
