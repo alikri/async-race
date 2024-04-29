@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CarData } from '../../../components/car/Car';
-import { addCar, deleteExistingCar, fetchAndUpdateCars, updateExistingCar } from './carAPI';
+import { addCar, createMultipleCars, deleteExistingCar, fetchAndUpdateCars, updateExistingCar } from './carAPI';
 
 interface CarState {
   cars: CarData[];
@@ -60,6 +60,13 @@ const carsSlice = createSlice({
       })
       .addCase(deleteExistingCar.rejected, (state, action) => {
         state.error = (action.payload as string) || 'Failed to delete car';
+      })
+      .addCase(createMultipleCars.fulfilled, (state, action) => {
+        state.totalCount += action.payload;
+        state.error = null;
+      })
+      .addCase(createMultipleCars.rejected, (state, action) => {
+        state.error = 'Failed to create multiple cars';
       });
   },
 });

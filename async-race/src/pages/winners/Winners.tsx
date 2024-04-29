@@ -1,5 +1,5 @@
 import './winners.styles.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WinnersTable from '../../components/winnersTable/WinnersTable';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -46,7 +46,7 @@ const Winners = () => {
             className="pagination-buttons"
             type="button"
             disabled={currentWinnersPage === 1}
-            onClick={handleNextPageClick}
+            onClick={handlePreviousPageClick}
           >
             Previous
           </button>
@@ -54,7 +54,7 @@ const Winners = () => {
             className="pagination-buttons"
             type="button"
             disabled={currentWinnersPage === totalWinnersPages}
-            onClick={handlePreviousPageClick}
+            onClick={handleNextPageClick}
           >
             Next
           </button>

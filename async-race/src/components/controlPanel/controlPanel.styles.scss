@@ -13,12 +13,28 @@
   outline: none;
 }
 
+
 .race-control-container {
-  max-width: 300px;
+  max-width: 500px;
   margin-top: 50px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+
+
+
+.race-control-wrapper {
+  display: flex;
+
+  .button-generate-cars {
+    @include button-style;
+    cursor: pointer;
+    outline: none;
+    width: fit-content;
+  }
+
+}
+  
 
 
   .title-container {

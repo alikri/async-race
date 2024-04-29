@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carAPI';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
+import { resetCarState } from '../../redux/features/drive/driveSlice';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -34,14 +35,25 @@ const Garage = () => {
     dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
   }, [currentPage, dispatch, itemsPerPage]);
 
+  const resetRaceState = () => {
+    dispatch(resetRaceResults());
+    allCars.forEach(car => {
+      dispatch(resetCarState(car.id));
+    });
+  };
+
   const handleNextPageClick = () => {
     dispatch(setPage(currentPage + 1));
     dispatch(fetchAndUpdateCars({ page: currentPage + 1, limit: itemsPerPage }));
+    resetRaceState();
+    setIsRacing(false);
   };
 
   const handlePreviousPageClick = () => {
     dispatch(setPage(currentPage - 1));
     dispatch(fetchAndUpdateCars({ page: currentPage - 1, limit: itemsPerPage }));
+    resetRaceState();
+    setIsRacing(false);
   };
 
   if (isLoading) return <div>Loading...</div>;

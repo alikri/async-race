@@ -114,7 +114,7 @@ const driveSlice = createSlice({
       .addCase(switchToDriveMode.rejected, (state, action) => {
         const actionPayload = action.payload as RejectedCarResponse;
         const existingIndex = state.driveModes.findIndex(mode => mode.id === actionPayload.id);
-        if (existingIndex !== -1) {
+        if (existingIndex !== -1 && state.driveModes[existingIndex].reset !== true) {
           state.driveModes[existingIndex].drive = false;
           state.driveModes[existingIndex].broken = true;
         }

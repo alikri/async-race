@@ -7,7 +7,7 @@ import InputText from '../common/input/inputText/inputText';
 import InputColor from '../common/input/inputColor/InputColor';
 import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelectors';
 import { AppDispatch, RootState } from '../../redux/store';
-import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
+import { addCar, createMultipleCars, fetchAndUpdateCars, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
@@ -23,6 +23,8 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
   const totalCarsCount = useSelector((state: RootState) => state.cars.totalCount);
+  const [isGeneratingCars, setIsGeneratingCars] = useState(false);
+  const { currentPage, itemsPerPage } = useSelector((state: RootState) => state.paginationGarage);
 
   const [formData, setFormData] = useState({
     carName: '',
@@ -92,6 +94,17 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
     });
   };
 
+  const handleGenerateCars = async () => {
+    setIsGeneratingCars(true);
+    try {
+      await dispatch(createMultipleCars()).unwrap();
+      dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+      setIsGeneratingCars(false);
+      console.log('Cars have been generated successfully.');
+    } catch (error) {
+      console.error('Failed to generate cars:', error);
+    }
+  };
   return (
     <>
       <div className="form-wrapper">
@@ -121,6 +134,14 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
           </button>
           <button disabled={!isRacing} className="button-big" type="button" onClick={handleResetClick}>
             Reset
+          </button>
+          <button
+            disabled={isGeneratingCars}
+            className="button-generate-cars"
+            type="button"
+            onClick={handleGenerateCars}
+          >
+            Generate Cars
           </button>
         </div>
       </div>

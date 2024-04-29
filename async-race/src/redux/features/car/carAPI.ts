@@ -5,6 +5,8 @@ import createCar from '../../../api/carAPI/createCar';
 import updateCar from '../../../api/carAPI/updateCar';
 import { RootState } from '../../store';
 import deleteCar from '../../../api/carAPI/deleteCar';
+import { CARS_NUMBER_TO_GENERATE } from '../../../constants';
+import { getRandomCarName, getRandomColor } from '../../../utils/generateCars';
 
 export const fetchAndUpdateCars = createAsyncThunk(
   'cars/fetchAndUpdate',
@@ -59,6 +61,27 @@ export const deleteExistingCar = createAsyncThunk<number, number, { state: RootS
         return rejectWithValue(error.message);
       }
       return rejectWithValue('An unknown error occurred');
+    }
+  },
+);
+
+export const createMultipleCars = createAsyncThunk(
+  'cars/createMultipleCars',
+  async (_, { dispatch, rejectWithValue }) => {
+    const promises = [];
+
+    for (let i = 0; i < CARS_NUMBER_TO_GENERATE; i += 1) {
+      const name = getRandomCarName();
+      const color = getRandomColor();
+      promises.push(createCar({ name, color }));
+    }
+
+    try {
+      await Promise.all(promises);
+      return CARS_NUMBER_TO_GENERATE;
+    } catch (error) {
+      console.error('Error creating cars:', error);
+      return rejectWithValue('Failed to create multiple cars');
     }
   },
 );

@@ -48,7 +48,15 @@ const Layout = () => {
         setModalWinner(winnerDataForModal);
       }
 
-      dispatch(saveWinner(winnerData));
+      const saveData = async () => {
+        await dispatch(saveWinner(winnerData)).unwrap();
+        dispatch(
+          fetchWinners({ page: currentWinnersPage, limit: itemsPerWinnersPage, sort: sortField, order: sortOrder }),
+        );
+        dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+      };
+
+      saveData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, raceWinner]);
@@ -71,12 +79,6 @@ const Layout = () => {
       dispatch(setPage(currentPage - 1));
     }
   }, [totalPages]);
-
-  useEffect(() => {
-    if (currentWinnersPage > 1 && currentWinnersPage > totalWinnersPages) {
-      dispatch(setWinnerCurrentPage(currentWinnersPage - 1));
-    }
-  }, [totalWinnersPages]);
 
   useEffect(() => {
     if (currentWinnersPage > 1 && currentWinnersPage > totalWinnersPages) {
