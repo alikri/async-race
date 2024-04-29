@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 import './layout.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -33,7 +32,6 @@ const Layout = () => {
 
   useEffect(() => {
     if (raceWinner) {
-      console.log(raceWinner, 'Winner inside Layout');
       const winnerData = {
         id: raceWinner.id,
         time: raceWinner.time,
