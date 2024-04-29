@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import createWinner from '../../../api/winnersAPI/createWinner';
-import getWinners from '../../../api/winnersAPI/getWinners';
+import getWinners, { FetchWinnersResponse } from '../../../api/winnersAPI/getWinners';
 import { WinnerData } from '../../../types';
 import updateWinner from '../../../api/winnersAPI/updateWinner';
 import { RootState } from '../../store';
@@ -10,16 +10,31 @@ interface WinnersState {
   winners: WinnerData[];
   totalCount: number;
 }
+interface FetchWinnersParams {
+  page: number;
+  limit: number;
+  sort: 'id' | 'wins' | 'time';
+  order: 'ASC' | 'DESC';
+}
 
 const initialState: WinnersState = {
   winners: [],
   totalCount: 0,
 };
 
-export const fetchWinners = createAsyncThunk('winners/fetchWinners', async () => {
-  const response = await getWinners();
-  return response;
-});
+export const fetchWinners = createAsyncThunk<FetchWinnersResponse, FetchWinnersParams, { rejectValue: string }>(
+  'winners/fetchWinners',
+  async ({ page = 1, limit = 10, sort = 'id', order = 'ASC' }, { rejectWithValue }) => {
+    try {
+      const response = await getWinners({ page, limit, sort, order });
+      return response;
+    } catch (error) {
+      // Error handling logic here
+      console.error('Failed to fetch winners:', error);
+      return rejectWithValue('Failed to fetch winners');
+    }
+  },
+);
 
 export const removeWinner = createAsyncThunk('winners/removeWinner', async (id: number, { rejectWithValue }) => {
   try {

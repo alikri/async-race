@@ -13,13 +13,21 @@ import WinnerAnnouncement from '../winnerAnouncment/WinnerAnouncement';
 import { WinnerDataForModal } from '../../types';
 import { getCarFromState } from '../../redux/features/car/carSelectors';
 import { setPage, setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
+import {
+  setTotalWinnerItems,
+  setWinnerCurrentPage,
+} from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
 
 const Layout = () => {
   const dispatch: AppDispatch = useDispatch();
   const raceWinner = useSelector((state: RootState) => selectWinner(state));
   const [modalWinner, setModalWinner] = useState<null | WinnerDataForModal>();
   const { currentPage, itemsPerPage, totalPages } = useSelector((state: RootState) => state.paginationGarage);
+  const { currentWinnersPage, itemsPerWinnersPage, totalWinnersPages, sortField, sortOrder } = useSelector(
+    (state: RootState) => state.winnerSortingPaginationSlice,
+  );
   const garageCarCount = useSelector((state: RootState) => state.cars.totalCount);
+  const winnersCount = useSelector((state: RootState) => state.winners.totalCount);
 
   useEffect(() => {
     if (raceWinner) {
@@ -46,7 +54,7 @@ const Layout = () => {
   }, [dispatch, raceWinner]);
 
   useEffect(() => {
-    dispatch(fetchWinners());
+    dispatch(fetchWinners({ page: currentWinnersPage, limit: itemsPerWinnersPage, sort: sortField, order: sortOrder }));
     dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
   }, [dispatch]);
 
@@ -55,10 +63,26 @@ const Layout = () => {
   }, [garageCarCount]);
 
   useEffect(() => {
+    dispatch(setTotalWinnerItems(winnersCount));
+  }, [winnersCount]);
+
+  useEffect(() => {
     if (currentPage > 1 && currentPage > totalPages) {
       dispatch(setPage(currentPage - 1));
     }
   }, [totalPages]);
+
+  useEffect(() => {
+    if (currentWinnersPage > 1 && currentWinnersPage > totalWinnersPages) {
+      dispatch(setWinnerCurrentPage(currentWinnersPage - 1));
+    }
+  }, [totalWinnersPages]);
+
+  useEffect(() => {
+    if (currentWinnersPage > 1 && currentWinnersPage > totalWinnersPages) {
+      dispatch(setWinnerCurrentPage(currentWinnersPage - 1));
+    }
+  }, [totalWinnersPages]);
 
   return (
     <section className="main-wrapper">

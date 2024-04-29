@@ -11,7 +11,7 @@ import { addCar, updateExistingCar } from '../../redux/features/car/carAPI';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
-import { setTotalItems } from '../../redux/features/paginationWinners/paginationWinnerSlice';
+import { setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
 
 interface Props {
   isRacing: boolean;

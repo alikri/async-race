@@ -6,7 +6,7 @@ import selectedCarReducer from './features/selectedCar/selectedCarSlice';
 import driveReducer from './features/drive/driveSlice';
 import raceResultsReducer from './features/raceResults/raceResultsSlice';
 import winnersReducer from './features/winners/winnersSlice';
-import paginationWinnerReducer from './features/paginationWinners/paginationWinnerSlice';
+import winnerSortingPaginationReducer from './features/winnerSortingPagination/winnerSortingPaginationSlice';
 import paginationGarageReducer from './features/paginationGarage/paginationGarageSlice';
 
 const store = configureStore({
@@ -17,7 +17,7 @@ const store = configureStore({
     drive: driveReducer,
     raceResults: raceResultsReducer,
     winners: winnersReducer,
-    paginationWinner: paginationWinnerReducer,
+    winnerSortingPaginationSlice: winnerSortingPaginationReducer,
     paginationGarage: paginationGarageReducer,
   },
 });
