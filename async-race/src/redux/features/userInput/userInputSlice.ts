@@ -19,9 +19,15 @@ export const userInputSlice = createSlice({
     resetFormData: state => {
       state.formData = initialState.formData;
     },
+    resetCarName: state => {
+      state.formData.carName = initialState.formData.carName;
+    },
+    resetUpdateCarName: state => {
+      state.formData.updateCarName = initialState.formData.updateCarName;
+    },
   },
 });
 
-export const { setFormData, resetFormData } = userInputSlice.actions;
+export const { setFormData, resetFormData, resetCarName, resetUpdateCarName } = userInputSlice.actions;
 
 export default userInputSlice.reducer;

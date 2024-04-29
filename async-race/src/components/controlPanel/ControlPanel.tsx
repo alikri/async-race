@@ -16,7 +16,8 @@ import {
 } from '../../redux/features/driveSettings/driveSettingsThunks';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
-import { setFormData } from '../../redux/features/userInput/userInputSlice';
+import { resetCarName, resetUpdateCarName, setFormData } from '../../redux/features/userInput/userInputSlice';
+import { clearSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 
 interface Props {
   isRacing: boolean;
@@ -61,6 +62,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
     };
 
     dispatch(addCar(createCarData));
+    dispatch(resetCarName());
   };
 
   const handleUpdateClick = () => {
@@ -72,6 +74,8 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
       };
 
       dispatch(updateExistingCar(updateCarData));
+      dispatch(clearSelectedCar());
+      dispatch(resetUpdateCarName());
     }
   };
 
@@ -116,7 +120,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
       <div className="form-wrapper">
         <InputText name="updateCarName" value={formData.updateCarName} onChange={handleInputChange} />
         <InputColor name="updateColor" value={formData.updateColor} onChange={handleInputChange} />
-        <button className="button-big" type="button" onClick={handleUpdateClick}>
+        <button disabled={!selectedCar} className="button-big" type="button" onClick={handleUpdateClick}>
           Update
         </button>
       </div>
