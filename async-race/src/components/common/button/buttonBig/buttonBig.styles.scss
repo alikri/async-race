@@ -1,7 +1,0 @@
-@import '../../../../scss/mixins';
-
-.button-big {
-  @include button-style;
-  cursor: pointer;
-  outline: none;
-}
