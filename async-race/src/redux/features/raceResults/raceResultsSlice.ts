@@ -8,12 +8,10 @@ interface RaceStatus {
 }
 
 interface RaceResultState {
-  raceStatuses: RaceStatus[];
   winner: RaceStatus | null;
 }
 
 const initialState: RaceResultState = {
-  raceStatuses: [],
   winner: null,
 };
 
@@ -22,7 +20,6 @@ const raceResultsSlice = createSlice({
   initialState,
   reducers: {
     resetRaceResults(state) {
-      state.raceStatuses = [];
       state.winner = null;
     },
     updateWinner(state, action: PayloadAction<RaceStatus>) {

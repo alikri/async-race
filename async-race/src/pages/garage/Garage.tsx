@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import SingleRaceRoad from '../../components/singRaceRoad/SingeRaceRoad';
-import { getError, getLoading } from '../../redux/features/load/loadSelectors';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
-import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
 import { resetCarState } from '../../redux/features/driveSettings/driveSettingsThunks';
 
@@ -22,27 +20,21 @@ const Garage = () => {
     totalGaragePages: totalPages,
   } = useSelector((state: RootState) => state.paginationGarage);
 
-  useEffect(() => {
-    dispatch(resetRaceResults());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  const resetRaceState = () => {
+    allCars.forEach(car => {
+      dispatch(resetCarState(car.id));
+    });
+  };
 
   useEffect(() => {
     dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
-    dispatch(resetRaceResults());
+    resetRaceState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
   }, [currentPage, dispatch, itemsPerPage]);
-
-  const resetRaceState = () => {
-    dispatch(resetRaceResults());
-    allCars.forEach(car => {
-      dispatch(resetCarState(car.id));
-    });
-  };
 
   const handleNextPageClick = () => {
     dispatch(setPage(currentPage + 1));

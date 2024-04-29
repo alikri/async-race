@@ -77,6 +77,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
 
   const handleRaceClick = () => {
     setIsRacing(true);
+    dispatch(resetRaceResults());
     cars.forEach(async car => {
       await dispatch(startCarDrive(car.id))
         .unwrap()
@@ -87,7 +88,6 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
 
   const handleResetClick = () => {
     setIsRacing(false);
-    dispatch(resetRaceResults());
     cars.forEach(car => {
       dispatch(resetCarState(car.id));
     });

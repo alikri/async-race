@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
-/* eslint-disable no-console */
 import './singleRaceRoad.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Car from '../common/car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -20,9 +19,7 @@ import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/driveSettings/driveSettingsSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
-import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeInMilliseconds';
-import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
-import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
+import { resetRaceResults, updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
 import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
 import { CarData } from '../../types';
@@ -39,35 +36,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
-  const [travelTime, setTravelTime] = useState(0);
-  const timerRef = useRef<null | ReturnType<typeof setTimeout>>(null);
-  const raceWinner = useSelector((state: RootState) => selectWinner(state));
   const winnerFromWinnerList = useSelector((state: RootState) => selectWinnerById(state, car.id));
-
-  useEffect(() => {
-    if (driveData && carRef.current && distanceRef && driveData.drive) {
-      const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
-      const finishTime = calculateDriveTimeInMilliseconds(driveData.driveData.velocity, totalWidth);
-      const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
-      timerRef.current = setTimeout(() => {
-        dispatch(updateWinner({ id: car.id, time: newTravelTime }));
-      }, finishTime);
-
-      return () => {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
-        }
-      };
-    }
-  }, [driveData?.drive]);
-
-  useEffect(() => {
-    if (timerRef.current && raceWinner) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  }, [raceWinner]);
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -95,13 +64,12 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
     if (driveData && carRef.current && isRacing && driveData.drive) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
-      cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive);
 
-      const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
-
-      if (newTravelTime !== travelTime) {
-        setTravelTime(newTravelTime);
-      }
+      cancelAnimation = animateCar(carRef.current, calculatedTime, totalWidth, driveData.drive, () => {
+        console.log('Animation completed!');
+        const newTravelTime = calculateDriveTime(driveData.driveData.velocity, totalWidth);
+        dispatch(updateWinner({ id: car.id, time: newTravelTime }));
+      });
     }
 
     return () => {
@@ -130,6 +98,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
 
   const handleStart = async () => {
     setIsRacing(true);
+    dispatch(resetRaceResults());
     await dispatch(startCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(switchToDriveMode(car.id)))
