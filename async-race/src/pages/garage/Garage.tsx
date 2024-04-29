@@ -15,8 +15,6 @@ import { resetCarState } from '../../redux/features/driveSettings/driveSettingsT
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();
   const allCars = useSelector(getAllCars);
-  const isLoading = useSelector(getLoading);
-  const error = useSelector(getError);
   const [isRacing, setIsRacing] = useState(false);
   const {
     currentGaragePage: currentPage,
@@ -59,9 +57,6 @@ const Garage = () => {
     resetRaceState();
     setIsRacing(false);
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   const displayCars =
     allCars && allCars.map(car => <RoadLine isRacing={isRacing} setIsRacing={setIsRacing} key={car.id} car={car} />);
