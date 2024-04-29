@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import './garage.styles.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +7,6 @@ import { getAllCars } from '../../redux/features/car/carSelectors';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
 import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
-import { resetCarState } from '../../redux/features/driveSettings/driveSettingsThunks';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -19,19 +17,6 @@ const Garage = () => {
     itemsPerGaragePage: itemsPerPage,
     totalGaragePages: totalPages,
   } = useSelector((state: RootState) => state.paginationGarage);
-
-  const resetRaceState = () => {
-    allCars.forEach(car => {
-      dispatch(resetCarState(car.id));
-    });
-  };
-
-  useEffect(() => {
-    dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
-    resetRaceState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
   useEffect(() => {
     dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
   }, [currentPage, dispatch, itemsPerPage]);
@@ -39,15 +24,11 @@ const Garage = () => {
   const handleNextPageClick = () => {
     dispatch(setPage(currentPage + 1));
     dispatch(fetchAndUpdateCars({ page: currentPage + 1, limit: itemsPerPage }));
-    resetRaceState();
-    setIsRacing(false);
   };
 
   const handlePreviousPageClick = () => {
     dispatch(setPage(currentPage - 1));
     dispatch(fetchAndUpdateCars({ page: currentPage - 1, limit: itemsPerPage }));
-    resetRaceState();
-    setIsRacing(false);
   };
 
   const displayCars =
@@ -60,7 +41,7 @@ const Garage = () => {
         <button
           className="pagination-buttons"
           type="button"
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isRacing}
           onClick={handlePreviousPageClick}
         >
           Previous
@@ -68,7 +49,7 @@ const Garage = () => {
         <button
           className="pagination-buttons"
           type="button"
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isRacing}
           onClick={handleNextPageClick}
         >
           Next
