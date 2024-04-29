@@ -30,7 +30,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const totalCarsCount = useSelector((state: RootState) => state.cars.totalCount);
   const [isGeneratingCars, setIsGeneratingCars] = useState(false);
   const { formData } = useSelector((state: RootState) => state.userInput);
-  const { currentGaragePage: currentPage, itemsPerGaragePage: itemsPerPage } = useSelector(
+  const { currentGaragePage, itemsPerGaragePage, totalGaragePages } = useSelector(
     (state: RootState) => state.paginationGarage,
   );
 
@@ -97,7 +97,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
     setIsGeneratingCars(true);
     try {
       await dispatch(createMultipleCars()).unwrap();
-      dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+      dispatch(fetchAndUpdateCars({ page: currentGaragePage, limit: itemsPerGaragePage }));
       setIsGeneratingCars(false);
       console.log('Cars have been generated successfully.');
     } catch (error) {
@@ -124,8 +124,11 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
         <div className="title-container">
           <h2>Garage</h2>
           <div className="garage-count-wrapper">
-            <h3>{totalCarsCount}</h3>
+            <h3> {totalCarsCount}</h3>
           </div>
+          <h3>
+            (Page {currentGaragePage} of {totalGaragePages})
+          </h3>
         </div>
         <div className="race-control-wrapper">
           <button disabled={isRacing} className="button-big" type="button" onClick={handleRaceClick}>
