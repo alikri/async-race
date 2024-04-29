@@ -22,11 +22,9 @@ const Layout = () => {
   const dispatch: AppDispatch = useDispatch();
   const raceWinner = useSelector((state: RootState) => selectWinner(state));
   const [modalWinner, setModalWinner] = useState<null | WinnerDataForModal>();
-  const {
-    currentGaragePage: currentPage,
-    itemsPerGaragePage: itemsPerPage,
-    totalGaragePages: totalPages,
-  } = useSelector((state: RootState) => state.paginationGarage);
+  const { currentGaragePage, itemsPerGaragePage, totalGaragePages } = useSelector(
+    (state: RootState) => state.paginationGarage,
+  );
   const { currentWinnersPage, itemsPerWinnersPage, totalWinnersPages, sortField, sortOrder } = useSelector(
     (state: RootState) => state.winnerSortingPaginationSlice,
   );
@@ -57,7 +55,7 @@ const Layout = () => {
         dispatch(
           fetchWinners({ page: currentWinnersPage, limit: itemsPerWinnersPage, sort: sortField, order: sortOrder }),
         );
-        dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+        dispatch(fetchAndUpdateCars({ page: currentGaragePage, limit: itemsPerGaragePage }));
       };
 
       saveData();
@@ -67,7 +65,7 @@ const Layout = () => {
 
   useEffect(() => {
     dispatch(fetchWinners({ page: currentWinnersPage, limit: itemsPerWinnersPage, sort: sortField, order: sortOrder }));
-    dispatch(fetchAndUpdateCars({ page: currentPage, limit: itemsPerPage }));
+    dispatch(fetchAndUpdateCars({ page: currentGaragePage, limit: itemsPerGaragePage }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -79,10 +77,10 @@ const Layout = () => {
   }, [winnersCount]);
 
   useEffect(() => {
-    if (currentPage > 1 && currentPage > totalPages) {
-      dispatch(setPage(currentPage - 1));
+    if (currentGaragePage > 1 && currentGaragePage > totalGaragePages) {
+      dispatch(setPage(currentGaragePage - 1));
     }
-  }, [totalPages]);
+  }, [totalGaragePages]);
 
   useEffect(() => {
     if (currentWinnersPage > 1 && currentWinnersPage > totalWinnersPages) {

@@ -20,7 +20,7 @@ import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/driveSettings/driveSettingsSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
-import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
+import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeInMilliseconds';
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
 import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
