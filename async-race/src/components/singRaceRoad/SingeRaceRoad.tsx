@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
-import './roadLine.styles.scss';
+import './singleRaceRoad.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import Car from '../car/Car';
+import Car from '../common/car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carThunks';
@@ -33,7 +33,7 @@ type Props = {
   setIsRacing: (isRacing: boolean) => void;
 };
 
-const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
+const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const distanceRef = useRef<HTMLDivElement>(null);
   const roadDistanceRef = useRef<number>(0);
@@ -174,4 +174,4 @@ const RoadLine = ({ car, isRacing, setIsRacing }: Props) => {
   );
 };
 
-export default RoadLine;
+export default SingleRaceRoad;

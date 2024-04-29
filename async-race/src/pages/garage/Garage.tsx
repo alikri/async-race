@@ -3,7 +3,7 @@ import './garage.styles.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
-import RoadLine from '../../components/road/RoadLine';
+import SingleRaceRoad from '../../components/singRaceRoad/SingeRaceRoad';
 import { getError, getLoading } from '../../redux/features/load/loadSelectors';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -59,7 +59,8 @@ const Garage = () => {
   };
 
   const displayCars =
-    allCars && allCars.map(car => <RoadLine isRacing={isRacing} setIsRacing={setIsRacing} key={car.id} car={car} />);
+    allCars &&
+    allCars.map(car => <SingleRaceRoad isRacing={isRacing} setIsRacing={setIsRacing} key={car.id} car={car} />);
   return (
     <div className="garage-container">
       <ControlPanel setIsRacing={setIsRacing} isRacing={isRacing} />

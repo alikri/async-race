@@ -1,6 +1,6 @@
 import '../winnersTable.scss';
 import { WinnerData } from '../../../types';
-import Car from '../../car/Car';
+import Car from '../../common/car/Car';
 
 interface WinnerRowProps {
   winner: WinnerData;
