@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 import Car from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
-import { deleteExistingCar } from '../../redux/features/car/carAPI';
-import { switchToDriveMode, startCarDrive, stopCarDrive, resetCarState } from '../../redux/features/drive/driveSlice';
+import { deleteExistingCar } from '../../redux/features/car/carThunks';
+import { switchToDriveMode, startCarDrive, stopCarDrive, resetCarState } from '../../redux/features/drive/driveThunks';
 import debounce from '../../utils/debounce';
 
 import animateCar from '../../utils/animateCar';
