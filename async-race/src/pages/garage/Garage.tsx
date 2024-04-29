@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
-import { resetCarState } from '../../redux/features/drive/driveThunks';
+import { resetCarState } from '../../redux/features/driveSettings/driveSettingsThunks';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();

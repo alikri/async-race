@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { driveCarEngine, startCarEngine, stopCarEngine } from '../../../api/carAPI/handleDrive';
-import setImmediateDriveMode from './driveActions';
+import setImmediateDriveMode from './driveSettingsActions';
 
 export const startCarDrive = createAsyncThunk('drive/startEngine', async (id: number, { rejectWithValue }) => {
   try {

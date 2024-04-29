@@ -9,7 +9,11 @@ import getSelectedCar from '../../redux/features/selectedCar/selectedCarSelector
 import { AppDispatch, RootState } from '../../redux/store';
 import { addCar, createMultipleCars, fetchAndUpdateCars, updateExistingCar } from '../../redux/features/car/carThunks';
 import { getAllCars } from '../../redux/features/car/carSelectors';
-import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveThunks';
+import {
+  resetCarState,
+  startCarDrive,
+  switchToDriveMode,
+} from '../../redux/features/driveSettings/driveSettingsThunks';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
 import { setFormData } from '../../redux/features/userInput/userInputSlice';

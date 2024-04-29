@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DriveMode } from '../../../types';
-import { resetCarState, startCarDrive, stopCarDrive, switchToDriveMode } from './driveThunks';
-import setImmediateDriveMode from './driveActions';
+import { resetCarState, startCarDrive, stopCarDrive, switchToDriveMode } from './driveSettingsThunks';
+import setImmediateDriveMode from './driveSettingsActions';
 
 interface RejectedCarResponse {
   id: number;

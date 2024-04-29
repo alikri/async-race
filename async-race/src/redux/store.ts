@@ -3,7 +3,7 @@ import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import carsReducer from './features/car/carSlice';
 import loadReducer from './features/load/loadSlice';
 import selectedCarReducer from './features/selectedCar/selectedCarSlice';
-import driveReducer from './features/drive/driveSlice';
+import driveReducer from './features/driveSettings/driveSettingsSlice';
 import raceResultsReducer from './features/raceResults/raceResultsSlice';
 import winnersReducer from './features/winners/winnersSlice';
 import winnerSortingPaginationReducer from './features/winnerSortingPagination/winnerSortingPaginationSlice';

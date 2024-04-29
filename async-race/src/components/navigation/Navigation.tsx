@@ -4,7 +4,7 @@ import { AppDispatch } from '../../redux/store';
 import './navigation.styles.scss';
 import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
-import { resetCarState } from '../../redux/features/drive/driveThunks';
+import { resetCarState } from '../../redux/features/driveSettings/driveSettingsThunks';
 
 const Navigation = () => {
   const dispatch: AppDispatch = useDispatch();

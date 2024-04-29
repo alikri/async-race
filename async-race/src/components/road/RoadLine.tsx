@@ -8,12 +8,17 @@ import Car from '../car/Car';
 import { setSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { deleteExistingCar } from '../../redux/features/car/carThunks';
-import { switchToDriveMode, startCarDrive, stopCarDrive, resetCarState } from '../../redux/features/drive/driveThunks';
+import {
+  switchToDriveMode,
+  startCarDrive,
+  stopCarDrive,
+  resetCarState,
+} from '../../redux/features/driveSettings/driveSettingsThunks';
 import debounce from '../../utils/debounce';
 
 import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
-import { selectDriveDataById } from '../../redux/features/drive/driveSelectors';
+import { selectDriveDataById } from '../../redux/features/driveSettings/driveSettingsSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
 import calculateDriveTimeInMilliseconds from '../../utils/calculateTimeImMilliseconds';
 import { updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
