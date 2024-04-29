@@ -18,7 +18,11 @@ const Garage = () => {
   const isLoading = useSelector(getLoading);
   const error = useSelector(getError);
   const [isRacing, setIsRacing] = useState(false);
-  const { currentPage, itemsPerPage, totalPages } = useSelector((state: RootState) => state.paginationGarage);
+  const {
+    currentGaragePage: currentPage,
+    itemsPerGaragePage: itemsPerPage,
+    totalGaragePages: totalPages,
+  } = useSelector((state: RootState) => state.paginationGarage);
 
   useEffect(() => {
     dispatch(resetRaceResults());

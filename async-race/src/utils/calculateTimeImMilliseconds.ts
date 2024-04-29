@@ -4,7 +4,7 @@ const calculateDriveTimeInMilliseconds = (velocity: number, totalWidth: number) 
   }
   const timeInSeconds = totalWidth / velocity;
   const timeInMilliseconds = timeInSeconds * 1000;
-  const adjustedTimeInMilliseconds = timeInMilliseconds * 0.7;
+  const adjustedTimeInMilliseconds = timeInMilliseconds * 0.5;
   return Math.floor(adjustedTimeInMilliseconds);
 };
 

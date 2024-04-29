@@ -8,6 +8,7 @@ import raceResultsReducer from './features/raceResults/raceResultsSlice';
 import winnersReducer from './features/winners/winnersSlice';
 import winnerSortingPaginationReducer from './features/winnerSortingPagination/winnerSortingPaginationSlice';
 import paginationGarageReducer from './features/paginationGarage/paginationGarageSlice';
+import userInputReducer from './features/userInput/userInputSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     winners: winnersReducer,
     winnerSortingPaginationSlice: winnerSortingPaginationReducer,
     paginationGarage: paginationGarageReducer,
+    userInput: userInputReducer,
   },
 });
 

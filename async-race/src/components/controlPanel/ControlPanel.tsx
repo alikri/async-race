@@ -12,6 +12,7 @@ import { getAllCars } from '../../redux/features/car/carSelectors';
 import { resetCarState, startCarDrive, switchToDriveMode } from '../../redux/features/drive/driveSlice';
 import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
 import { setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
+import { setFormData } from '../../redux/features/userInput/userInputSlice';
 
 interface Props {
   isRacing: boolean;
@@ -24,14 +25,10 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const cars = useSelector(getAllCars);
   const totalCarsCount = useSelector((state: RootState) => state.cars.totalCount);
   const [isGeneratingCars, setIsGeneratingCars] = useState(false);
-  const { currentPage, itemsPerPage } = useSelector((state: RootState) => state.paginationGarage);
-
-  const [formData, setFormData] = useState({
-    carName: '',
-    color: '',
-    updateCarName: '',
-    updateColor: '',
-  });
+  const { formData } = useSelector((state: RootState) => state.userInput);
+  const { currentGaragePage: currentPage, itemsPerGaragePage: itemsPerPage } = useSelector(
+    (state: RootState) => state.paginationGarage,
+  );
 
   useEffect(() => {
     dispatch(setTotalItems(totalCarsCount));
@@ -39,20 +36,18 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
 
   useEffect(() => {
     if (selectedCar !== null) {
-      setFormData(prev => ({
-        ...prev,
-        updateCarName: selectedCar.name,
-        updateColor: selectedCar.color,
-      }));
+      dispatch(
+        setFormData({
+          updateCarName: selectedCar.name,
+          updateColor: selectedCar.color,
+        }),
+      );
     }
   }, [selectedCar]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    dispatch(setFormData({ [name]: value }));
   };
 
   const handleCreateClick = () => {

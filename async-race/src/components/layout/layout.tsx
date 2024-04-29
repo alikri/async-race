@@ -22,7 +22,11 @@ const Layout = () => {
   const dispatch: AppDispatch = useDispatch();
   const raceWinner = useSelector((state: RootState) => selectWinner(state));
   const [modalWinner, setModalWinner] = useState<null | WinnerDataForModal>();
-  const { currentPage, itemsPerPage, totalPages } = useSelector((state: RootState) => state.paginationGarage);
+  const {
+    currentGaragePage: currentPage,
+    itemsPerGaragePage: itemsPerPage,
+    totalGaragePages: totalPages,
+  } = useSelector((state: RootState) => state.paginationGarage);
   const { currentWinnersPage, itemsPerWinnersPage, totalWinnersPages, sortField, sortOrder } = useSelector(
     (state: RootState) => state.winnerSortingPaginationSlice,
   );

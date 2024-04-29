@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentPage: 1,
-  totalPages: 1,
-  itemsPerPage: 7,
-  totalItems: 0,
+  currentGaragePage: 1,
+  totalGaragePages: 1,
+  itemsPerGaragePage: 7,
+  totalGarageItems: 0,
 };
 
 export const paginationGarageSlice = createSlice({
@@ -12,11 +12,11 @@ export const paginationGarageSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action) => {
-      state.currentPage = action.payload;
+      state.currentGaragePage = action.payload;
     },
     setTotalItems: (state, action) => {
-      state.totalItems = action.payload;
-      state.totalPages = Math.ceil(action.payload / state.itemsPerPage);
+      state.totalGarageItems = action.payload;
+      state.totalGaragePages = Math.ceil(action.payload / state.itemsPerGaragePage);
     },
   },
 });
