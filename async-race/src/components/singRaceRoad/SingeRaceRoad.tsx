@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable consistent-return */
 import './singleRaceRoad.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
@@ -76,7 +74,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
         cancelAnimation();
       }
     };
-  }, [driveData?.drive]);
+  }, [car.id, dispatch, driveData, driveData?.drive, isRacing]);
 
   useEffect(() => {
     if (driveData?.reset && carRef.current) {
