@@ -17,7 +17,7 @@ import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/driveSettings/driveSettingsSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
-import { resetRaceResults, updateWinner } from '../../redux/features/raceResults/raceResultsSlice';
+import { initiateRace, resetRaceStatus, updateWinner } from '../../redux/features/raceResults/raceStatusSlice';
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
 import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
 import { CarData } from '../../types';
@@ -95,7 +95,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
 
   const handleStart = async () => {
     setIsRacing(true);
-    dispatch(resetRaceResults());
+    dispatch(initiateRace());
     await dispatch(startCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(switchToDriveMode(car.id)))
@@ -104,6 +104,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
 
   const handleStop = async () => {
     setIsRacing(false);
+    dispatch(resetRaceStatus());
     await dispatch(stopCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(resetCarState(car.id)))

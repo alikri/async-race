@@ -7,7 +7,7 @@ import Header from '../header/header';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchWinners, saveWinner } from '../../redux/features/winners/winnersSlice';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
-import { selectWinner } from '../../redux/features/raceResults/raceResultsSelectors';
+import { selectWinner } from '../../redux/features/raceResults/raceStatusSelectors';
 import WinnerAnnouncement from '../winnerAnouncment/WinnerAnouncement';
 import { WinnerDataForModal } from '../../types';
 import { getCarFromState } from '../../redux/features/car/carSelectors';

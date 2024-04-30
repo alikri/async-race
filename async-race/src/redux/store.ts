@@ -4,7 +4,7 @@ import carsReducer from './features/car/carSlice';
 import loadReducer from './features/load/loadSlice';
 import selectedCarReducer from './features/selectedCar/selectedCarSlice';
 import driveReducer from './features/driveSettings/driveSettingsSlice';
-import raceResultsReducer from './features/raceResults/raceResultsSlice';
+import raceStatusReducer from './features/raceResults/raceStatusSlice';
 import winnersReducer from './features/winners/winnersSlice';
 import winnerSortingPaginationReducer from './features/winnerSortingPagination/winnerSortingPaginationSlice';
 import paginationGarageReducer from './features/paginationGarage/paginationGarageSlice';
@@ -16,7 +16,7 @@ const store = configureStore({
     load: loadReducer,
     selectedCar: selectedCarReducer,
     drive: driveReducer,
-    raceResults: raceResultsReducer,
+    raceStatus: raceStatusReducer,
     winners: winnersReducer,
     winnerSortingPaginationSlice: winnerSortingPaginationReducer,
     paginationGarage: paginationGarageReducer,

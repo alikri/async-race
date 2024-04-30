@@ -14,10 +14,11 @@ import {
   startCarDrive,
   switchToDriveMode,
 } from '../../redux/features/driveSettings/driveSettingsThunks';
-import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
+import { initiateRace, resetRaceStatus } from '../../redux/features/raceResults/raceStatusSlice';
 import { setTotalItems } from '../../redux/features/paginationGarage/paginationGarageSlice';
 import { resetCarName, resetUpdateCarName, setFormData } from '../../redux/features/userInput/userInputSlice';
 import { clearSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
+import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
 
 interface Props {
   isRacing: boolean;
@@ -28,6 +29,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
+  const isRaceInProgress = useSelector((state: RootState) => selectRaceStatus(state));
   const totalCarsCount = useSelector((state: RootState) => state.cars.totalCount);
   const [isGeneratingCars, setIsGeneratingCars] = useState(false);
   const { formData } = useSelector((state: RootState) => state.userInput);
@@ -81,7 +83,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
 
   const handleRaceClick = () => {
     setIsRacing(true);
-    dispatch(resetRaceResults());
+    dispatch(initiateRace());
     cars.forEach(async car => {
       await dispatch(startCarDrive(car.id))
         .unwrap()
@@ -92,6 +94,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
 
   const handleResetClick = () => {
     setIsRacing(false);
+    dispatch(resetRaceStatus());
     cars.forEach(car => {
       dispatch(resetCarState(car.id));
     });
@@ -142,7 +145,7 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
             Reset
           </button>
           <button
-            disabled={isGeneratingCars}
+            disabled={isGeneratingCars || isRaceInProgress}
             className="button-generate-cars"
             type="button"
             onClick={handleGenerateCars}

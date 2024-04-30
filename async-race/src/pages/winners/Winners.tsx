@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import WinnersTable from '../../components/winnersTable/WinnersTable';
 import { AppDispatch, RootState } from '../../redux/store';
 import { selectWinners } from '../../redux/features/winners/winnersSelector';
-import { resetRaceResults } from '../../redux/features/raceResults/raceResultsSlice';
+import { resetRaceResults } from '../../redux/features/raceResults/raceStatusSlice';
 import { setWinnerCurrentPage } from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
 import { fetchWinners } from '../../redux/features/winners/winnersSlice';
 
