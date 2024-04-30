@@ -1,5 +1,5 @@
 import './garage.styles.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import SingleRaceRoad from '../../components/singRaceRoad/SingeRaceRoad';

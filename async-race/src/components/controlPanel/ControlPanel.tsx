@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 import './controlPanel.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -34,7 +32,7 @@ const ControlPanel = () => {
 
   useEffect(() => {
     dispatch(setTotalItems(totalCarsCount));
-  }, [totalCarsCount]);
+  }, [dispatch, totalCarsCount]);
 
   useEffect(() => {
     if (selectedCar !== null) {
@@ -45,7 +43,7 @@ const ControlPanel = () => {
         }),
       );
     }
-  }, [selectedCar]);
+  }, [dispatch, selectedCar]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -99,7 +97,6 @@ const ControlPanel = () => {
       await dispatch(createMultipleCars()).unwrap();
       dispatch(fetchAndUpdateCars({ page: currentGaragePage, limit: itemsPerGaragePage }));
       setIsGeneratingCars(false);
-      console.log('Cars have been generated successfully.');
     } catch (error) {
       console.error('Failed to generate cars:', error);
     }
