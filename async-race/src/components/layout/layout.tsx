@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './layout.styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -58,7 +57,6 @@ const Layout = () => {
 
       saveData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, raceWinner]);
 
   useEffect(() => {

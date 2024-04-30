@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { WinnerData } from '../../types';
 import createWinner from './createWinner';
 import getWinner from './getWinner';
