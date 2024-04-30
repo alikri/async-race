@@ -7,11 +7,12 @@ import { getAllCars } from '../../redux/features/car/carSelectors';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
 import { setPage } from '../../redux/features/paginationGarage/paginationGarageSlice';
+import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
 
 const Garage = () => {
   const dispatch: AppDispatch = useDispatch();
   const allCars = useSelector(getAllCars);
-  const [isRacing, setIsRacing] = useState(false);
+  const isRaceInProgress = useSelector((state: RootState) => selectRaceStatus(state));
   const {
     currentGaragePage: currentPage,
     itemsPerGaragePage: itemsPerPage,
@@ -31,17 +32,15 @@ const Garage = () => {
     dispatch(fetchAndUpdateCars({ page: currentPage - 1, limit: itemsPerPage }));
   };
 
-  const displayCars =
-    allCars &&
-    allCars.map(car => <SingleRaceRoad isRacing={isRacing} setIsRacing={setIsRacing} key={car.id} car={car} />);
+  const displayCars = allCars && allCars.map(car => <SingleRaceRoad key={car.id} car={car} />);
   return (
     <div className="garage-container">
-      <ControlPanel setIsRacing={setIsRacing} isRacing={isRacing} />
+      <ControlPanel />
       <div className="pagination-container">
         <button
           className="pagination-buttons"
           type="button"
-          disabled={currentPage === 1 || isRacing}
+          disabled={currentPage === 1 || isRaceInProgress}
           onClick={handlePreviousPageClick}
         >
           Previous
@@ -49,7 +48,7 @@ const Garage = () => {
         <button
           className="pagination-buttons"
           type="button"
-          disabled={currentPage === totalPages || isRacing}
+          disabled={currentPage === totalPages || isRaceInProgress}
           onClick={handleNextPageClick}
         >
           Next

@@ -21,20 +21,20 @@ import { initiateRace, resetRaceStatus, updateWinner } from '../../redux/feature
 import { removeWinner } from '../../redux/features/winners/winnersSlice';
 import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
 import { CarData } from '../../types';
+import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
 
 type Props = {
   car: CarData;
-  isRacing: boolean;
-  setIsRacing: (isRacing: boolean) => void;
 };
 
-const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
+const SingleRaceRoad = ({ car }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const distanceRef = useRef<HTMLDivElement>(null);
   const roadDistanceRef = useRef<number>(0);
   const carRef = useRef<HTMLDivElement>(null);
   const driveData = useSelector((state: RootState) => selectDriveDataById(state, car.id));
   const winnerFromWinnerList = useSelector((state: RootState) => selectWinnerById(state, car.id));
+  const isRaceInProgress = useSelector((state: RootState) => selectRaceStatus(state));
 
   const updateWidth = () => {
     if (distanceRef.current) {
@@ -59,7 +59,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
 
   useEffect(() => {
     let cancelAnimation: () => void;
-    if (driveData && carRef.current && isRacing && driveData.drive) {
+    if (driveData && carRef.current && isRaceInProgress && driveData.drive) {
       const calculatedTime = Math.round(driveData.driveData.distance / driveData.driveData.velocity);
       const totalWidth = carRef.current.offsetWidth + roadDistanceRef.current + EXTRA_CAR_GAP;
 
@@ -74,7 +74,7 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
         cancelAnimation();
       }
     };
-  }, [car.id, dispatch, driveData, driveData?.drive, isRacing]);
+  }, [car.id, dispatch, driveData, driveData?.drive, isRaceInProgress]);
 
   useEffect(() => {
     if (driveData?.reset && carRef.current) {
@@ -94,7 +94,6 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
   };
 
   const handleStart = async () => {
-    setIsRacing(true);
     dispatch(initiateRace());
     await dispatch(startCarDrive(car.id))
       .unwrap()
@@ -103,8 +102,6 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
   };
 
   const handleStop = async () => {
-    setIsRacing(false);
-    dispatch(resetRaceStatus());
     await dispatch(stopCarDrive(car.id))
       .unwrap()
       .then(() => dispatch(resetCarState(car.id)))
@@ -115,10 +112,10 @@ const SingleRaceRoad = ({ car, isRacing, setIsRacing }: Props) => {
     <div className="road-line">
       <div className="car-settings-wrapper">
         <div className="car-update">
-          <button className="button-medium" type="button" onClick={handleSelectCar}>
+          <button disabled={isRaceInProgress} className="button-medium" type="button" onClick={handleSelectCar}>
             Select
           </button>
-          <button className="button-medium" type="button" onClick={handleDeleteCar}>
+          <button disabled={isRaceInProgress} className="button-medium" type="button" onClick={handleDeleteCar}>
             Remove
           </button>
         </div>

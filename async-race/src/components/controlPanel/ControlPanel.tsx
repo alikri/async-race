@@ -20,12 +20,7 @@ import { resetCarName, resetUpdateCarName, setFormData } from '../../redux/featu
 import { clearSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
 
-interface Props {
-  isRacing: boolean;
-  setIsRacing: (isRacing: boolean) => void;
-}
-
-const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
+const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();
   const selectedCar = useSelector(getSelectedCar);
   const cars = useSelector(getAllCars);
@@ -82,7 +77,6 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   };
 
   const handleRaceClick = () => {
-    setIsRacing(true);
     dispatch(initiateRace());
     cars.forEach(async car => {
       await dispatch(startCarDrive(car.id))
@@ -93,7 +87,6 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
   };
 
   const handleResetClick = () => {
-    setIsRacing(false);
     dispatch(resetRaceStatus());
     cars.forEach(car => {
       dispatch(resetCarState(car.id));
@@ -116,14 +109,19 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
       <div className="form-wrapper">
         <InputText name="carName" value={formData.carName} onChange={handleInputChange} />
         <InputColor name="color" value={formData.color} onChange={handleInputChange} />
-        <button className="button-big" type="button" onClick={handleCreateClick}>
+        <button disabled={isRaceInProgress} className="button-big" type="button" onClick={handleCreateClick}>
           Create
         </button>
       </div>
       <div className="form-wrapper">
         <InputText name="updateCarName" value={formData.updateCarName} onChange={handleInputChange} />
         <InputColor name="updateColor" value={formData.updateColor} onChange={handleInputChange} />
-        <button disabled={!selectedCar} className="button-big" type="button" onClick={handleUpdateClick}>
+        <button
+          disabled={!selectedCar || isRaceInProgress}
+          className="button-big"
+          type="button"
+          onClick={handleUpdateClick}
+        >
           Update
         </button>
       </div>
@@ -138,10 +136,10 @@ const ControlPanel = ({ setIsRacing, isRacing }: Props) => {
           </h3>
         </div>
         <div className="race-control-wrapper">
-          <button disabled={isRacing} className="button-big" type="button" onClick={handleRaceClick}>
+          <button disabled={isRaceInProgress} className="button-big" type="button" onClick={handleRaceClick}>
             Race
           </button>
-          <button disabled={!isRacing} className="button-big" type="button" onClick={handleResetClick}>
+          <button disabled={!isRaceInProgress} className="button-big" type="button" onClick={handleResetClick}>
             Reset
           </button>
           <button
