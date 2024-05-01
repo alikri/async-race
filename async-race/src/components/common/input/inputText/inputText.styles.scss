@@ -1,0 +1,19 @@
+@import '../../../../scss/mixins';
+
+.text-input-wrapper {
+
+  width: 200px;
+
+  .text-input {
+    @include input-style;
+    width: 100%;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+@import '../../scss/mixins';
+
+.road-line {
+  height: 80px;
+  margin-inline: 10px;
+  border-bottom: dashed;
+  border-color: #FED766;
+  border-width: thin;
+  position: relative;
+  display: flex;
+
+  .car-settings-wrapper {
+    min-width: 160px;
+    display: flex;
+    align-items: end;
+
+    .car-settings {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      margin-bottom: 4px;
+
+      .button-small {
+        @include button-style;
+        padding: 0;
+        max-width: 25px;
+        margin-right: 2px;
+        font-weight: bold;
+        font-size: 14px;
+        height: 22px;
+      }
+    }
+
+    .car-update {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      margin-bottom: 4px;
+
+      .button-medium {
+          @include button-style;
+          padding: 0;
+          max-width: 45px;
+          margin-right: 2px;
+          font-size: .7rem;
+          height: 22px;
+          font-weight: bold;
+      }
+    }
+
+  }
+
+  .car-name-container {
+    position: absolute;
+    left: 170px;
+    font-weight: bold;
+  }
+
+  .car-container {
+    position: absolute;
+    top: 28px;
+    left: 75px;
+    z-index: 2;
+  }
+
+  .race-road {
+    width: 100%;
+    border-right: dotted;
+    border-left: dotted;
+    border-color: #FED766;
+    border-width: thin;
+  }
+
+  .finish {
+    min-width: 85px;
+    width: 85px;
+  }
+}

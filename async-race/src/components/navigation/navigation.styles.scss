@@ -1,0 +1,14 @@
+@import '../../scss/mixins';
+
+.nav-wrapper {
+  margin-block: 20px;
+
+  .nav-container {
+    display: flex;
+    justify-content: start;
+  }
+
+  .nav-link {
+    @include button-style; 
+  }
+}
