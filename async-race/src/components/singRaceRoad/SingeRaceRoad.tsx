@@ -17,11 +17,11 @@ import animateCar from '../../utils/animateCar';
 import { UPDATE_IN, EXTRA_CAR_GAP } from '../../constants';
 import { selectDriveDataById } from '../../redux/features/driveSettings/driveSettingsSelectors';
 import calculateDriveTime from '../../utils/canculateDriveTime';
-import { initiateRace, resetRaceStatus, updateWinner } from '../../redux/features/raceResults/raceStatusSlice';
-import { removeWinner } from '../../redux/features/winners/winnersSlice';
+import { initiateRace, updateWinner } from '../../redux/features/raceResults/raceStatusSlice';
 import { selectWinnerById } from '../../redux/features/winners/winnersSelector';
 import { CarData } from '../../types';
 import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
+import { removeWinner } from '../../redux/features/winners/winnersThunks';
 
 type Props = {
   car: CarData;

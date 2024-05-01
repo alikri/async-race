@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { selectWinners } from '../../redux/features/winners/winnersSelector';
 import { resetRaceResults } from '../../redux/features/raceResults/raceStatusSlice';
 import { setWinnerCurrentPage } from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
-import { fetchWinners } from '../../redux/features/winners/winnersSlice';
+import { fetchWinners } from '../../redux/features/winners/winnersThunks';
 
 const Winners = () => {
   const dispatch: AppDispatch = useDispatch();

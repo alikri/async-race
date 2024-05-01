@@ -6,7 +6,7 @@ import arrowDown from '../images/icons/arrow-up.svg';
 import arrowUp from '../images/icons/arrow-down.svg';
 import { AppDispatch, RootState } from '../../redux/store';
 import { setSortField, setSortOrder } from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
-import { fetchWinners } from '../../redux/features/winners/winnersSlice';
+import { fetchWinners } from '../../redux/features/winners/winnersThunks';
 
 interface WinnersTableProps {
   winners: WinnerData[];

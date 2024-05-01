@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../header/header';
 import { AppDispatch, RootState } from '../../redux/store';
-import { fetchWinners, saveWinner } from '../../redux/features/winners/winnersSlice';
 import { fetchAndUpdateCars } from '../../redux/features/car/carThunks';
 import { selectWinner } from '../../redux/features/raceResults/raceStatusSelectors';
 import WinnerAnnouncement from '../winnerAnouncment/WinnerAnouncement';
@@ -15,6 +14,7 @@ import {
   setTotalWinnerItems,
   setWinnerCurrentPage,
 } from '../../redux/features/winnerSortingPagination/winnerSortingPaginationSlice';
+import { fetchWinners, saveWinner } from '../../redux/features/winners/winnersThunks';
 
 const Layout = () => {
   const dispatch: AppDispatch = useDispatch();
