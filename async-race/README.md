@@ -1,4 +1,4 @@
-# Score: 405 points. Deploy: [Async Race](https://66327470ab5ee512dfd6c2e9--amazing-centaur-f3b025.netlify.app/)
+# Score: 405 points. Deploy: [Async Race](https://6632810da9c5cb1b3bdd26f4--amazing-centaur-f3b025.netlify.app/)
 
 ## Self Evaluation: 
 
