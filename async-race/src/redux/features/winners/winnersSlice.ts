@@ -15,7 +15,16 @@ const initialState: WinnersState = {
 const winnersSlice = createSlice({
   name: 'winners',
   initialState,
-  reducers: {},
+  reducers: {
+    updateWinnerCarDetails: (state, action) => {
+      const { id, color, name } = action.payload;
+      const index = state.winners.findIndex(winner => winner.id === id);
+      if (index !== -1) {
+        state.winners[index].carColor = color;
+        state.winners[index].name = name;
+      }
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchWinners.fulfilled, (state, action) => {
@@ -43,5 +52,7 @@ const winnersSlice = createSlice({
       });
   },
 });
+
+export const { updateWinnerCarDetails } = winnersSlice.actions;
 
 export default winnersSlice.reducer;

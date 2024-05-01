@@ -17,6 +17,7 @@ import { setTotalItems } from '../../redux/features/paginationGarage/paginationG
 import { resetCarName, resetUpdateCarName, setFormData } from '../../redux/features/userInput/userInputSlice';
 import { clearSelectedCar } from '../../redux/features/selectedCar/selectedCarSlice';
 import { selectRaceStatus } from '../../redux/features/raceResults/raceStatusSelectors';
+import { updateWinnerCarDetails } from '../../redux/features/winners/winnersSlice';
 
 const ControlPanel = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -71,6 +72,7 @@ const ControlPanel = () => {
       dispatch(updateExistingCar(updateCarData));
       dispatch(clearSelectedCar());
       dispatch(resetUpdateCarName());
+      dispatch(updateWinnerCarDetails(updateCarData));
     }
   };
 
