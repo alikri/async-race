@@ -13,7 +13,7 @@ async function makeApiRequest<T>({
   params = {},
   headers = {},
 }: RequestOptions): Promise<{ data: T; headers: Headers }> {
-  const baseUrl = 'http://127.0.0.1:3000/';
+  const baseUrl = 'http://127.0.0.1:3000';
   const url = new URL(endpoint, baseUrl);
 
   if (params instanceof URLSearchParams) {
